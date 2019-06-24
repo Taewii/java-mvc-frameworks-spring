@@ -20,6 +20,9 @@
 *.ipr
 *.class
 
+### IntelliJ IDEA ###
+*.mvn
+
 # Prerequisites
 *.d
 
