@@ -12,7 +12,7 @@
                 <li class="nav-item ml-3">
                     <a class="nav-link nav-link-white active" th:href="@{/}">Home</a>
                 </li>
-                <th:block th:if="${session == null or session.username == null}">
+                <th:block th:if="${session == null or session.userId == null}">
                     <li class="nav-item ml-3">
                         <a class="nav-link nav-link-white active" th:href="@{/login}">Login</a>
                     </li>
@@ -20,7 +20,7 @@
                         <a class="nav-link nav-link-white active" th:href="@{/register}">Register</a>
                     </li>
                 </th:block>
-                <th:block th:if="${session != null && session.username != null}">
+                <th:block th:if="${session != null && session.userId != null}">
                     <li class="nav-item ml-3">
                         <a class="nav-link nav-link-white active" th:href="@{/schedule}">Schedule</a>
                     </li>

@@ -6,12 +6,37 @@
     <header th:insert="~{fragments/header :: header}"></header>
     <main class="mt-3">
         <hr class="bg-exodia hr-2"/>
-        <div class="jumbotron mt-3 bg-exodia">
-            <h1 class="text-white">Welcome to EXODIA Xerox Information.</h1>
-            <hr class="bg-white hr-2"/>
-            <h3 class="text-white"><a th:href="@{/login}">Login</a> if you have an account.</h3>
-            <h3 class="text-white"><a th:href="@{/register}">Register</a> if you don't.</h3>
-        </div>
+        <th:block th:if="${session == null or session.userId == null}">
+            <div class="jumbotron mt-3 bg-exodia">
+                <h1 class="text-white">Welcome to EXODIA Xerox Information.</h1>
+                <hr class="bg-white hr-2"/>
+                <h3 class="text-white"><a th:href="@{/login}">Login</a> if you have an account.</h3>
+                <h3 class="text-white"><a th:href="@{/register}">Register</a> if you don't.</h3>
+            </div>
+        </th:block>
+        <th:block th:if="${session != null && session.userId != null}">
+            <div class="print-container container-fluid">
+                <th:block th:each="document, stat : ${documents}">
+                    <th:block th:if="${stat.index % 5 == 0}"
+                              th:utext="'&lt;div class=&#34;row mb-4 d-flex justify-content-start&#34;&gt;'"/>
+
+                    <div class="print-scheduled col-md-2 bg-exodia rounded">
+                        <h5 class="text-center text-white font-weight-bold py-3 mt-3" th:text="${document.title}"></h5>
+                        <hr class="bg-white">
+                        <div class="buttons-holder w-75 mx-auto d-flex justify-content-between">
+                            <a class="btn bg-exodia text-white font-weight-bold mb-3"
+                               th:href="@{/print/{id}(id=${document.id})}">Print
+                            </a>
+                            <a class="btn bg-exodia text-white font-weight-bold mb-3"
+                               th:href="@{/details/{id}(id=${document.id})}">Details
+                            </a>
+                        </div>
+                    </div>
+
+                    <th:block th:if="${stat.last or (stat.index + 1) % 5 == 0}" th:utext="'&lt;/div&gt;'"/>
+                </th:block>
+            </div>
+        </th:block>
         <hr class="bg-exodia hr-2 mt-5"/>
     </main>
     <footer th:insert="~{fragments/footer :: footer}"></footer>
