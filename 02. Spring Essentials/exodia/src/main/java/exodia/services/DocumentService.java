@@ -8,6 +8,7 @@ import exodia.domain.models.view.DocumentPrintViewModel;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DocumentService {
 
@@ -20,4 +21,6 @@ public interface DocumentService {
     DocumentPrintViewModel findByIdPrintModel(String id);
 
     void print(String id);
+
+    Optional<byte[]> getPdf(String id);
 }

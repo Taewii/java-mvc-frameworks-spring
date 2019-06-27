@@ -1,7 +1,11 @@
 package exodia.services;
 
+import com.qkyrie.markdown2pdf.internal.converting.Html2PdfConverter;
+import com.qkyrie.markdown2pdf.internal.converting.Markdown2HtmlConverter;
+import com.qkyrie.markdown2pdf.internal.exceptions.ConversionException;
 import exodia.domain.entities.Document;
 import exodia.domain.models.binding.DocumentScheduleBindingModel;
+import exodia.domain.models.service.DocumentPrintServiceModel;
 import exodia.domain.models.service.DocumentServiceModel;
 import exodia.domain.models.view.DocumentDetailsViewModel;
 import exodia.domain.models.view.DocumentHomeViewModel;
@@ -11,8 +15,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.xhtmlrenderer.util.XRRuntimeException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,11 +27,17 @@ public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
     private final ModelMapper mapper;
+    private final Html2PdfConverter html2PdfConverter;
+    private final Markdown2HtmlConverter markdown2HtmlConverter;
 
     @Autowired
-    public DocumentServiceImpl(DocumentRepository documentRepository, ModelMapper mapper) {
+    public DocumentServiceImpl(DocumentRepository documentRepository, ModelMapper mapper,
+                               Html2PdfConverter html2PdfConverter,
+                               Markdown2HtmlConverter markdown2HtmlConverter) {
         this.documentRepository = documentRepository;
         this.mapper = mapper;
+        this.html2PdfConverter = html2PdfConverter;
+        this.markdown2HtmlConverter = markdown2HtmlConverter;
     }
 
     @Override
@@ -56,6 +68,28 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public Optional<byte[]> getPdf(String id) {
+        Document document = this.documentRepository.findById(UUID.fromString(id)).orElse(null);
+
+        if (document == null) {
+            return Optional.empty();
+        }
+
+        DocumentPrintServiceModel doc = this.mapper.map(document, DocumentPrintServiceModel.class);
+        String content = String.format("<h1 style=\"text-align: center;\">%s</h1>\n", doc.getTitle()) + doc.getContent();
+
+        try {
+            String html = this.markdown2HtmlConverter.convert(content);
+            html = "<div>" + html.replaceAll("(?<=</h[0-6])>", ">\n<hr />\n") + "</div>";
+            return Optional.of(this.html2PdfConverter.convert(html));
+        } catch (ConversionException | XRRuntimeException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     public List<DocumentHomeViewModel> findAll() {
         return this.documentRepository
                 .findAll()
@@ -63,7 +97,7 @@ public class DocumentServiceImpl implements DocumentService {
                 .map(doc -> this.mapper.map(doc, DocumentHomeViewModel.class))
                 .peek(doc -> {
                     if (doc.getTitle().length() > 12) {
-                        doc.setTitle(doc.getTitle().substring(0, 12));
+                        doc.setTitle(doc.getTitle().substring(0, 12) + "...");
                     }
                 })
                 .collect(Collectors.toList());

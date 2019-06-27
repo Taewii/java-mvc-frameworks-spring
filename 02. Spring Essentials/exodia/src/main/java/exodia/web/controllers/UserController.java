@@ -47,12 +47,10 @@ public class UserController {
     public String loginPost(@Valid @ModelAttribute UserLoginBindingModel model,
                             BindingResult result,
                             HttpSession session) {
-
         UserServiceModel userServiceModel = this.userService.login(model, result);
         if (userServiceModel != null) {
             session.setAttribute("userId", userServiceModel.getId());
             return "redirect:/";
-//            return "redirect:/home";
         }
 
         return "redirect:/login";

@@ -39,7 +39,12 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        this.userRepository.saveAndFlush(this.mapper.map(model, User.class));
+        try {
+            this.userRepository.saveAndFlush(this.mapper.map(model, User.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 

@@ -6,6 +6,10 @@ import exodia.domain.models.view.DocumentDetailsViewModel;
 import exodia.domain.models.view.DocumentPrintViewModel;
 import exodia.services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,5 +71,21 @@ public class DocumentController {
     public String printPost(@PathVariable String id) {
         this.documentService.print(id);
         return "redirect:/";
+    }
+
+    @GetMapping("/print/pdf/{id}")
+    public ResponseEntity<byte[]> getAsPdf(@PathVariable String id) {
+        byte[] contents = this.documentService.getPdf(id).orElse(null);
+
+        if (contents == null) {
+            throw new IllegalArgumentException("Something is wrong with the formatting of the document, extraction is not possible.");
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        String filename = "document-" + id.substring(0, 8) + ".pdf";
+        headers.setContentDispositionFormData(filename, filename);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        return new ResponseEntity<>(contents, headers, HttpStatus.OK);
     }
 }

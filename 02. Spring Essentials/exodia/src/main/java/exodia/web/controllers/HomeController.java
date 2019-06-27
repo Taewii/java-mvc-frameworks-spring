@@ -21,10 +21,4 @@ public class HomeController {
         model.addAttribute("documents", this.documentService.findAll());
         return "index";
     }
-
-//    @GetMapping("/home")
-//    public String home(Model model) {
-//        model.addAttribute("documents", this.documentService.findAll());
-//        return "home";
-//    }
 }
