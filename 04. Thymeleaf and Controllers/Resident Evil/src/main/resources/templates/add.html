@@ -6,35 +6,50 @@
     <th:block th:insert="fragments/header"/>
     <main class="mx-auto w-75">
         <h1 class="my-4">Spread a new Virus!</h1>
-        <form class="my-5" th:action="@{/add}" th:method="POST">
+        <form class="my-5" th:action="@{/add}" th:method="POST" th:object="${model}">
+            <ul th:if="${#fields.hasErrors('*')}">
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+            </ul>
             <div class="form-group">
                 <label for="name">Name</label>
                 <input aria-describedby="name" class="form-control" id="name" name="name"
-                       type="text"/>
+                       type="text" th:classappend="${#fields.hasErrors()} ? 'is-invalid'"/>
+                <div class="invalid-feedback">
+                    Invalid name.
+                </div>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description"
                           type="text"></textarea>
+                <div class="invalid-feedback">
+                    Invalid description
+                </div>
             </div>
             <div class="form-group">
-                <label for="sideEffect">Side Effect</label>
-                <input class="form-control" id="sideEffect" name="sideEffect" type="text"/>
+                <label for="sideEffects">Side Effects</label>
+                <input class="form-control" id="sideEffects" name="sideEffects" type="text"/>
+                <div class="invalid-feedback">
+                    Invalid side effects
+                </div>
             </div>
             <div class="form-group">
                 <label for="creator">Creator</label>
                 <input class="form-control" id="creator" name="creator" type="text"/>
+                <div class="invalid-feedback">
+                    Invalid creator
+                </div>
             </div>
             <div class="form-check">
                 <div class="checkbox">
-                    <input class="form-check-input" id="isDeadly" name="isDeadly"
+                    <input class="form-check-input" id="isDeadly" name="IsDeadly"
                            type="checkbox">
                     <label class="form-check-label" for="isDeadly">Is Deadly?</label>
                 </div>
             </div>
             <div class="form-check my-2">
                 <div class="checkbox">
-                    <input class="form-check-input" id="isCurable" name="isCurable"
+                    <input class="form-check-input" id="isCurable" name="IsCurable"
                            type="checkbox">
                     <label class="form-check-label" for="isCurable">Is Curable?</label>
                 </div>
@@ -42,14 +57,14 @@
             <div class="form-group my-4">
                 <label>Mutation</label>
                 <div class="radio">
-                    <label><input name="mutation" type="radio" value="zombie"> ZOMBIE</label>
+                    <label><input name="mutation" type="radio" value="ZOMBIE"> ZOMBIE</label>
                 </div>
                 <div class="radio">
-                    <label><input name="mutation" type="radio" value="tyrant">
+                    <label><input name="mutation" type="radio" value="T_078_TYRANT">
                         T_078_TYRANT</label>
                 </div>
                 <div class="radio disabled">
-                    <label><input name="mutation" type="radio" value="spider">
+                    <label><input name="mutation" type="radio" value="GIANT_SPIDER">
                         GIANT_SPIDER</label>
                 </div>
                 <div class="radio disabled">
@@ -61,6 +76,9 @@
                 <label for="turnoverRate">Turnover Rate</label>
                 <input class="form-control" id="turnoverRate" max="100" min="1"
                        name="turnoverRate" type="number"/>
+                <div class="invalid-feedback">
+                    Invalid turnover rate
+                </div>
             </div>
             <div class="form-group">
                 <label for="hoursUntilTurn">Hours Until Turn</label>
@@ -70,14 +88,17 @@
             <div class="form-group">
                 <label for="magnitude">Magnitude</label>
                 <select class="form-control" id="magnitude" name="magnitude">
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="releaseDate">Release Date</label>
-                <input class="form-control" id="releaseDate" name="releaseDate" type="date">
+                <label for="releasedOn">Release Date</label>
+                <input class="form-control" id="releasedOn" name="releasedOn" type="date">
+                <div class="invalid-feedback">
+                   Invalid date.
+                </div>
             </div>
             <div class="form-group">
                 <label for="affectedCapitals">Affected Capitals</label>
