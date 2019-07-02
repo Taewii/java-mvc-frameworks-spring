@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head"/>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+    <main class="mx-auto w-75">
+        <h1 class="my-4">All Viruses</h1>
+        <table class="table">
+            <thead>
+            <tr class="font-weight-bold">
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Magnitude</th>
+                <th scope="col">Released On</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">14</th>
+                <td>T-Virus</td>
+                <td>MEDIUM</td>
+                <td>02-Feb-2018</td>
+                <td><a class="btn btn-outline-secondary" href="#" role="button">Edit</a></td>
+                <td><a class="btn btn-outline-secondary" href="#" role="button">Delete</a></td>
+            </tr>
+            <tr>
+                <th scope="row">15</th>
+                <td>B-Virus</td>
+                <td>HIGH</td>
+                <td>03-Jan-2018</td>
+                <td><a class="btn btn-outline-secondary" href="#" role="button">Edit</a></td>
+                <td><a class="btn btn-outline-secondary" href="#" role="button">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+<th:block th:insert="fragments/scripts"/>
+</body>
+
+</html>
