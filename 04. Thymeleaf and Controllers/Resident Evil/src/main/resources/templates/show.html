@@ -16,21 +16,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">14</th>
-                <td>T-Virus</td>
-                <td>MEDIUM</td>
-                <td>02-Feb-2018</td>
-                <td><a class="btn btn-outline-secondary" href="#" role="button">Edit</a></td>
-                <td><a class="btn btn-outline-secondary" href="#" role="button">Delete</a></td>
-            </tr>
-            <tr>
-                <th scope="row">15</th>
-                <td>B-Virus</td>
-                <td>HIGH</td>
-                <td>03-Jan-2018</td>
-                <td><a class="btn btn-outline-secondary" href="#" role="button">Edit</a></td>
-                <td><a class="btn btn-outline-secondary" href="#" role="button">Delete</a></td>
+            <tr th:each="virus : ${viruses}">
+                <th scope="row" th:text="${virus.id}"></th>
+                <td th:text="${virus.name}"></td>
+                <td th:text="${virus.magnitude}"></td>
+                <td th:text="${#dates.format(virus.releasedOn, 'dd-MMM-yyyy')}"></td>
+                <td><a class="btn btn-outline-secondary" role="button" th:href="@{/virus/edit/{id}(id=${virus.id})}">Edit</a>
+                </td>
+                <td><a class="btn btn-outline-secondary" role="button" th:href="@{/virus/delete/{id}(id=${virus.id})}">Delete</a>
+                </td>
             </tr>
             </tbody>
         </table>

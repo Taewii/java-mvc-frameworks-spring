@@ -7,9 +7,10 @@ import residentevil.domain.enums.Mutation;
 
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.Set;
 
 @Data
-public class CreateVirusBindingModel {
+public class VirusBindingModel {
 
     @NotBlank
     @Size(min = 3, max = 10)
@@ -43,9 +44,11 @@ public class CreateVirusBindingModel {
 
     private Magnitude magnitude;
 
-
     @Past
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date releasedOn;
+
+    @NotNull
+    private Set<Long> affectedCapitals;
 }

@@ -6,14 +6,11 @@
     <th:block th:insert="fragments/header"/>
     <main class="mx-auto w-75">
         <h1 class="my-4">Spread a new Virus!</h1>
-        <form class="my-5" th:action="@{/add}" th:method="POST" th:object="${model}">
-            <ul th:if="${#fields.hasErrors('*')}">
-                <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
-            </ul>
+        <form class="my-5" data-toggle="validator" th:action="@{/virus/add}" th:method="POST" th:object="${virus}">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input aria-describedby="name" class="form-control" id="name" name="name"
-                       type="text" th:classappend="${#fields.hasErrors()} ? 'is-invalid'"/>
+                <input aria-describedby="name" class="form-control" id="name"
+                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'" th:field="*{name}" type="text"/>
                 <div class="invalid-feedback">
                     Invalid name.
                 </div>
@@ -21,21 +18,23 @@
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description"
-                          type="text"></textarea>
+                          th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'" type="text"></textarea>
                 <div class="invalid-feedback">
                     Invalid description
                 </div>
             </div>
             <div class="form-group">
                 <label for="sideEffects">Side Effects</label>
-                <input class="form-control" id="sideEffects" name="sideEffects" type="text"/>
+                <input class="form-control" id="sideEffects" name="sideEffects" th:classappend="${#fields.hasErrors('sideEffects')} ? 'is-invalid'"
+                       type="text"/>
                 <div class="invalid-feedback">
                     Invalid side effects
                 </div>
             </div>
             <div class="form-group">
                 <label for="creator">Creator</label>
-                <input class="form-control" id="creator" name="creator" type="text"/>
+                <input class="form-control" id="creator" name="creator" th:classappend="${#fields.hasErrors('creator')} ? 'is-invalid'"
+                       type="text"/>
                 <div class="invalid-feedback">
                     Invalid creator
                 </div>
@@ -56,26 +55,16 @@
             </div>
             <div class="form-group my-4">
                 <label>Mutation</label>
-                <div class="radio">
-                    <label><input name="mutation" type="radio" value="ZOMBIE"> ZOMBIE</label>
-                </div>
-                <div class="radio">
-                    <label><input name="mutation" type="radio" value="T_078_TYRANT">
-                        T_078_TYRANT</label>
-                </div>
-                <div class="radio disabled">
-                    <label><input name="mutation" type="radio" value="GIANT_SPIDER">
-                        GIANT_SPIDER</label>
-                </div>
-                <div class="radio disabled">
-                    <label><input disabled name="mutation" type="radio" value="saveHumanity">
-                        Save Humanity</label>
+                <div class="radio" th:each="mutation : ${T(residentevil.domain.enums.Mutation).values()}">
+                    <label><input name="mutation" required th:text="${' ' + mutation}" th:value="${mutation}"
+                                  type="radio"></label>
                 </div>
             </div>
             <div class="form-group">
                 <label for="turnoverRate">Turnover Rate</label>
                 <input class="form-control" id="turnoverRate" max="100" min="1"
-                       name="turnoverRate" type="number"/>
+                       name="turnoverRate" th:classappend="${#fields.hasErrors('turnoverRate')} ? 'is-invalid'"
+                       type="number"/>
                 <div class="invalid-feedback">
                     Invalid turnover rate
                 </div>
@@ -83,7 +72,11 @@
             <div class="form-group">
                 <label for="hoursUntilTurn">Hours Until Turn</label>
                 <input class="form-control" id="hoursUntilTurn" max="12"
-                       min="1" name="hoursUntilTurn" type="number"/>
+                       min="1" name="hoursUntilTurn" th:classappend="${#fields.hasErrors('hoursUntilTurn')} ? 'is-invalid'"
+                       type="number"/>
+                <div class="invalid-feedback">
+                    Invalid hours until turn
+                </div>
             </div>
             <div class="form-group">
                 <label for="magnitude">Magnitude</label>
@@ -95,19 +88,22 @@
             </div>
             <div class="form-group">
                 <label for="releasedOn">Release Date</label>
-                <input class="form-control" id="releasedOn" name="releasedOn" type="date">
+                <input class="form-control" id="releasedOn" name="releasedOn" th:classappend="${#fields.hasErrors('releasedOn')} ? 'is-invalid'"
+                       type="date">
                 <div class="invalid-feedback">
-                   Invalid date.
+                    Invalid date
                 </div>
             </div>
             <div class="form-group">
                 <label for="affectedCapitals">Affected Capitals</label>
                 <select class="form-control" id="affectedCapitals" multiple
-                        name="affectedCapitals">
-                    <option value="vatican">Vatican</option>
-                    <option value="rome">Rome</option>
-                    <option value="sofia">Sofia</option>
+                        name="affectedCapitals"
+                        th:classappend="${#fields.hasErrors('affectedCapitals')} ? 'is-invalid'">
+                    <option th:each="capital : ${capitals}" th:text="${capital.name}" th:value="${capital.id}"></option>
                 </select>
+                <div class="invalid-feedback">
+                    You must select capitals
+                </div>
             </div>
             <div class="text-center">
                 <button class="btn btn-primary" type="submit">Submit</button>

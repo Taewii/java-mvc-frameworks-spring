@@ -7,9 +7,9 @@ import residentevil.domain.enums.Mutation;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -60,7 +60,7 @@ public class Virus {
     @Column
     private Byte hoursUntilTurn;
 
-    @NotBlank
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Magnitude magnitude;
@@ -78,5 +78,9 @@ public class Virus {
             joinColumns = @JoinColumn(name = "virus_id"),
             inverseJoinColumns = @JoinColumn(name = "capital_id")
     )
-    private List<Capital> capitals = new ArrayList<>();
+    private Set<Capital> capitals = new HashSet<>();
+
+    public void addCapital(Capital capital) {
+        this.capitals.add(capital);
+    }
 }
