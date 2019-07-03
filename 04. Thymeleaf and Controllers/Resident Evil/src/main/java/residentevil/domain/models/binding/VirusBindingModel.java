@@ -7,6 +7,7 @@ import residentevil.domain.enums.Mutation;
 
 import javax.validation.constraints.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -50,5 +51,5 @@ public class VirusBindingModel {
     private Date releasedOn;
 
     @NotNull
-    private Set<Long> affectedCapitals;
+    private Set<Long> affectedCapitals = new HashSet<>();
 }

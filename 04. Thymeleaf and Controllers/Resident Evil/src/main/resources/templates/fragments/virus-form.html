@@ -1,0 +1,132 @@
+<th:block th:fragment="form (method, action, title, buttonValue)" xmlns:th="http://www.thymeleaf.org">
+    <h1 class="my-4" th:text="${title}"></h1>
+    <form class="my-5" data-toggle="validator" th:action="@{${action}}" th:method="${method}" th:object="${virus}">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input aria-describedby="name" class="form-control" id="name" type="text"
+                   th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+                   th:field="*{name}"
+                   th:readonly="${method == 'DELETE'}"
+                   th:value="*{name}"/>
+            <div class="invalid-feedback">
+                Invalid name.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" type="text"
+                      th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"
+                      th:readonly="${method == 'DELETE'}"
+                      th:text="*{description}"></textarea>
+            <div class="invalid-feedback">
+                Invalid description
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sideEffects">Side Effects</label>
+            <input class="form-control" id="sideEffects" name="sideEffects" type="text"
+                   th:classappend="${#fields.hasErrors('sideEffects')} ? 'is-invalid'"
+                   th:readonly="${method == 'DELETE'}"
+                   th:value="*{sideEffects}"/>
+            <div class="invalid-feedback">
+                Invalid side effects
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="creator">Creator</label>
+            <input class="form-control" id="creator" name="creator" type="text"
+                   th:classappend="${#fields.hasErrors('creator')} ? 'is-invalid'"
+                   th:readonly="${method == 'DELETE'}"
+                   th:value="*{creator}"/>
+            <div class="invalid-feedback">
+                Invalid creator
+            </div>
+        </div>
+        <div class="form-check">
+            <div class="checkbox">
+                <input class="form-check-input" id="isDeadly" name="IsDeadly" type="checkbox"
+                       th:checked="*{isDeadly}"
+                       th:disabled="${method == 'DELETE'}"/>
+                <label class="form-check-label" for="isDeadly">Is Deadly?</label>
+            </div>
+        </div>
+        <div class="form-check my-2">
+            <div class="checkbox">
+                <input class="form-check-input" id="isCurable" name="IsCurable" type="checkbox"
+                       th:checked="*{isCurable}"
+                       th:disabled="${method == 'DELETE'}"/>
+                <label class="form-check-label" for="isCurable">Is Curable?</label>
+            </div>
+        </div>
+        <div class="form-group my-4">
+            <label for="mutation">Mutation</label>
+            <div class="radio" th:each="mutation : ${T(residentevil.domain.enums.Mutation).values()}">
+                <input id="mutation" name="mutation" type="radio" required
+                       th:checked="${virus.mutation == mutation}"
+                       th:disabled="${method == 'DELETE'}"
+                       th:text="${' ' + mutation}"
+                       th:value="${mutation}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="turnoverRate">Turnover Rate</label>
+            <input class="form-control" id="turnoverRate" type="number" max="100" min="1" name="turnoverRate"
+                   th:classappend="${#fields.hasErrors('turnoverRate')} ? 'is-invalid'"
+                   th:readonly="${method == 'DELETE'}"
+                   th:value="*{turnoverRate}"/>
+            <div class="invalid-feedback">
+                Invalid turnover rate
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="hoursUntilTurn">Hours Until Turn</label>
+            <input class="form-control" id="hoursUntilTurn" type="number" max="12" min="1" name="hoursUntilTurn"
+                   th:classappend="${#fields.hasErrors('hoursUntilTurn')} ? 'is-invalid'"
+                   th:readonly="${method == 'DELETE'}"
+                   th:value="*{hoursUntilTurn}"/>
+            <div class="invalid-feedback">
+                Invalid hours until turn
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="magnitude">Magnitude</label>
+            <select class="form-control" id="magnitude" name="magnitude"
+                    th:readonly="${method == 'DELETE'}"
+                    th:value="*{magnitude}">
+                <option th:each="magnitude : ${T(residentevil.domain.enums.Magnitude).values()}"
+                        th:readonly="${method == 'DELETE'}"
+                        th:selected="${virus.magnitude == magnitude}"
+                        th:text="${magnitude}"
+                        th:value="${magnitude}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="releasedOn">Release Date</label>
+            <input class="form-control" id="releasedOn" name="releasedOn" type="date"
+                   th:classappend="${#fields.hasErrors('releasedOn')} ? 'is-invalid'"
+                   th:readonly="${method == 'PUT' or method == 'DELETE'}"
+                   th:value="${#dates.format(virus.releasedOn, 'yyyy-MM-dd')}"/>
+            <div class="invalid-feedback">
+                Invalid date
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="affectedCapitals">Affected Capitals</label>
+            <select class="form-control" id="affectedCapitals" name="affectedCapitals" multiple
+                    th:classappend="${#fields.hasErrors('affectedCapitals')} ? 'is-invalid'"
+                    th:readonly="${method == 'DELETE'}"
+                    th:value="*{affectedCapitals}">
+                <option th:each="capital : ${capitals}"
+                        th:selected="${#sets.contains(virus.affectedCapitals, capital.id)}"
+                        th:text="${capital.name}"
+                        th:value="${capital.id}"></option>
+            </select>
+            <div class="invalid-feedback">
+                You must select capitals
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" th:text="${buttonValue}" type="submit"></button>
+        </div>
+    </form>
+</th:block>

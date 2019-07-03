@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import residentevil.domain.models.binding.VirusBindingModel;
 import residentevil.domain.models.view.CapitalListAllViewModel;
 import residentevil.services.CapitalService;
@@ -34,6 +31,12 @@ public class VirusController {
         return capitalService.findAll();
     }
 
+    @GetMapping("/show")
+    public String show(Model model) {
+        model.addAttribute("viruses", virusService.findAll());
+        return "show";
+    }
+
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("virus", new VirusBindingModel());
@@ -50,9 +53,15 @@ public class VirusController {
         return "redirect:/";
     }
 
-    @GetMapping("/show")
-    public String show(Model model) {
-        model.addAttribute("viruses", virusService.findAll());
-        return "show";
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable String id, Model model) {
+        model.addAttribute("virus", virusService.findById(id));
+        return "edit";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable String id, Model model) {
+        model.addAttribute("virus", virusService.findById(id));
+        return "delete";
     }
 }

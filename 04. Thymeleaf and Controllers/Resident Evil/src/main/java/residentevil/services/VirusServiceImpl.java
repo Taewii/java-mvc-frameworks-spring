@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import residentevil.domain.entities.Virus;
 import residentevil.domain.models.binding.VirusBindingModel;
+import residentevil.domain.models.view.VirusListViewModel;
 import residentevil.domain.models.view.VirusViewModel;
 import residentevil.repositories.VirusRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,10 +41,18 @@ public class VirusServiceImpl implements VirusService {
     }
 
     @Override
-    public List<VirusViewModel> findAll() {
+    public List<VirusListViewModel> findAll() {
         return virusRepository
                 .findAll()
                 .stream()
-                .map(v -> mapper.map(v, VirusViewModel.class)).collect(Collectors.toUnmodifiableList());
+                .map(v -> mapper.map(v, VirusListViewModel.class)).collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public VirusViewModel findById(String id) {
+        Virus virus = virusRepository.findById(UUID.fromString(id)).orElseThrow();
+        VirusViewModel model = mapper.map(virus, VirusViewModel.class);
+        virus.getCapitals().forEach(c -> model.getAffectedCapitals().add(c.getId()));
+        return model;
     }
 }

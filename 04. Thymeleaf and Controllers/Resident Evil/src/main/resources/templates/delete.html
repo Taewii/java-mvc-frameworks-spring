@@ -6,10 +6,10 @@
     <th:block th:insert="fragments/header"/>
     <main class="mx-auto w-75">
         <th:block th:replace="fragments/virus-form.html :: form (
-            'POST',
-            '/virus/add',
-            'Spread a new Virus!',
-            'Submit'
+            'DELETE',
+            '/virus/delete',
+            'Delete the chosen Virus!',
+            'Delete'
         )"/>
     </main>
 </div>
