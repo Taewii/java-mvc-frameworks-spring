@@ -9,9 +9,12 @@ import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 public class VirusBindingModel {
+
+    private UUID id;
 
     @NotBlank
     @Size(min = 3, max = 10)
@@ -35,13 +38,15 @@ public class VirusBindingModel {
     @NotNull
     private Mutation mutation;
 
+    @Min(0)
+    @Max(100)
     @NotNull
-    private Byte turnoverRate;
+    private Integer turnoverRate;
 
     @Min(1)
     @Max(12)
     @NotNull
-    private Byte hoursUntilTurn;
+    private Integer hoursUntilTurn;
 
     private Magnitude magnitude;
 
@@ -50,6 +55,6 @@ public class VirusBindingModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date releasedOn;
 
-    @NotNull
+    @NotEmpty
     private Set<Long> affectedCapitals = new HashSet<>();
 }

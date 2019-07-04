@@ -34,10 +34,16 @@ public class VirusServiceImpl implements VirusService {
     @Override
     public void save(VirusBindingModel virusModel) {
         Virus virus = this.mapper.map(virusModel, Virus.class);
+        virus.getCapitals().clear(); // it has 1 null value for some reason
         virusModel.getAffectedCapitals()
                 .forEach(cId -> virus.addCapital(capitalService.getById(cId)));
 
         virusRepository.save(virus);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        virusRepository.deleteById(id);
     }
 
     @Override

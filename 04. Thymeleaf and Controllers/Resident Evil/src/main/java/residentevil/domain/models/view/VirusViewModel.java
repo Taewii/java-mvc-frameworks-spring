@@ -7,10 +7,12 @@ import residentevil.domain.enums.Mutation;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 public class VirusViewModel {
 
+    private UUID id;
     private String name;
     private String description;
     private String sideEffects;

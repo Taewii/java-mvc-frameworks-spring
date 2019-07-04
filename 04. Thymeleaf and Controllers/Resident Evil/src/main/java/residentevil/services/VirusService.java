@@ -5,6 +5,7 @@ import residentevil.domain.models.view.VirusListViewModel;
 import residentevil.domain.models.view.VirusViewModel;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface VirusService {
 
@@ -13,4 +14,6 @@ public interface VirusService {
     List<VirusListViewModel> findAll();
 
     VirusViewModel findById(String id);
+
+    void delete(UUID id);
 }

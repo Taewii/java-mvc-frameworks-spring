@@ -50,7 +50,7 @@ public class VirusController {
         }
 
         virusService.save(bindingModel);
-        return "redirect:/";
+        return "redirect:/virus/show";
     }
 
     @GetMapping("/edit/{id}")
@@ -59,9 +59,26 @@ public class VirusController {
         return "edit";
     }
 
+    @PutMapping("/edit")
+    public String editPut(@Valid @ModelAttribute("virus") VirusBindingModel bindingModel,
+                          Errors errors) {
+        if (errors.hasErrors()) {
+            return "edit";
+        }
+
+        virusService.save(bindingModel);
+        return "redirect:/virus/show";
+    }
+
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable String id, Model model) {
         model.addAttribute("virus", virusService.findById(id));
         return "delete";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteDelete(@ModelAttribute VirusBindingModel bindingModel) {
+        virusService.delete(bindingModel.getId());
+        return "redirect:/virus/show";
     }
 }

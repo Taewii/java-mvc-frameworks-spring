@@ -1,6 +1,8 @@
 <th:block th:fragment="form (method, action, title, buttonValue)" xmlns:th="http://www.thymeleaf.org">
     <h1 class="my-4" th:text="${title}"></h1>
     <form class="my-5" data-toggle="validator" th:action="@{${action}}" th:method="${method}" th:object="${virus}">
+        <input type="hidden" th:field="*{id}">
+
         <div class="form-group">
             <label for="name">Name</label>
             <input aria-describedby="name" class="form-control" id="name" type="text"
