@@ -5,3 +5,7 @@
 textarea {
     resize: none;
 }
+
+.options {
+    margin: 0 70px;
+}

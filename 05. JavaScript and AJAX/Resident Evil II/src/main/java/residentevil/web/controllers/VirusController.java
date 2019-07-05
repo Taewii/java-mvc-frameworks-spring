@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import residentevil.domain.models.binding.VirusBindingModel;
-import residentevil.domain.models.view.CapitalListAllViewModel;
+import residentevil.domain.models.view.CapitalOptionViewModel;
 import residentevil.services.CapitalService;
 import residentevil.services.VirusService;
 
@@ -27,13 +27,12 @@ public class VirusController {
     }
 
     @ModelAttribute("capitals")
-    public List<CapitalListAllViewModel> capitals() {
-        return capitalService.findAll();
+    public List<CapitalOptionViewModel> capitals() {
+        return capitalService.getAllForOptionsMenu();
     }
 
     @GetMapping("/show")
-    public String show(Model model) {
-        model.addAttribute("viruses", virusService.findAll());
+    public String show() {
         return "show";
     }
 

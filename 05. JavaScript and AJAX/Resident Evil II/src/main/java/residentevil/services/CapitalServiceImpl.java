@@ -4,7 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import residentevil.domain.entities.Capital;
-import residentevil.domain.models.view.CapitalListAllViewModel;
+import residentevil.domain.models.view.CapitalOptionViewModel;
+import residentevil.domain.models.view.CapitalViewModel;
 import residentevil.repositories.CapitalRepository;
 
 import java.util.List;
@@ -23,10 +24,18 @@ public class CapitalServiceImpl implements CapitalService {
     }
 
     @Override
-    public List<CapitalListAllViewModel> findAll() {
+    public List<CapitalOptionViewModel> getAllForOptionsMenu() {
         return capitalRepository.findAllByOrderByName()
                 .stream()
-                .map(c -> mapper.map(c, CapitalListAllViewModel.class))
+                .map(c -> mapper.map(c, CapitalOptionViewModel.class))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<CapitalViewModel> getAll() {
+        return capitalRepository.findAllByOrderByName()
+                .stream()
+                .map(c -> mapper.map(c, CapitalViewModel.class))
                 .collect(Collectors.toUnmodifiableList());
     }
 
