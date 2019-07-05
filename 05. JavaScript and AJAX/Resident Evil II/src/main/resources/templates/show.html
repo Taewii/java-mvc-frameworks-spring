@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head"/>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+    <main class="mx-auto w-75">
+        <h1 class="my-4">All Viruses</h1>
+        <table class="table">
+            <thead>
+            <tr class="font-weight-bold">
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Magnitude</th>
+                <th scope="col">Released On</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="virus : ${viruses}">
+                <th scope="row" th:text="${virus.id}"></th>
+                <td th:text="${virus.name}"></td>
+                <td th:text="${virus.magnitude}"></td>
+                <td th:text="${#dates.format(virus.releasedOn, 'dd-MMM-yyyy')}"></td>
+                <td><a class="btn btn-outline-secondary" role="button" th:href="@{/virus/edit/{id}(id=${virus.id})}">Edit</a>
+                </td>
+                <td><a class="btn btn-outline-secondary" role="button" th:href="@{/virus/delete/{id}(id=${virus.id})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+<th:block th:insert="fragments/scripts"/>
+</body>
+
+</html>
