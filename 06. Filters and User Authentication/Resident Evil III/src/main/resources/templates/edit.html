@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head"/>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+    <main class="mx-auto w-75">
+        <th:block th:replace="fragments/virus-form.html :: form (
+            'PUT',
+            '/virus/edit',
+            'Edit the chosen Virus!',
+            'Edit'
+        )"/>
+    </main>
+</div>
+<th:block th:insert="fragments/scripts"/>
+</body>
+
+</html>

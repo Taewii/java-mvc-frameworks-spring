@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head"/>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+    <main class="mx-auto w-75">
+        <div class="row my-4 font-weight-bold">
+            <div class="col-5">
+                <h1 id="title">Your choice</h1>
+            </div>
+            <div class="col-7 d-flex flex-wrap align-content-center">
+                <div class="radio">
+                    <label class="options"><input type="radio" name="optradio" id="viruses"> Viruses</label>
+                </div>
+                <div class="radio">
+                    <label class="options"><input type="radio" name="optradio" id="capitals"> Capitals</label>
+                </div>
+            </div>
+        </div>
+        <div id="content">
+            <hr>
+            <h2 class="text-center">
+                Select, what data you want to visualize!
+            </h2>
+        </div>
+    </main>
+</div>
+<th:block th:insert="fragments/scripts"/>
+
+<script th:inline="javascript">
+    const $title = $('#title');
+    const $content = $('#content');
+    const $virusesBtn = $('#viruses');
+    const $capitalsBtn = $('#capitals');
+
+    $virusesBtn.on('click', loadViruses);
+    $capitalsBtn.on('click', loadCapitals);
+
+    function loadViruses() {
+        $title.text('All Viruses');
+        $content.empty();
+
+        fetch('/api/viruses')
+            .then(res => res.json())
+            .then(viruses => {
+                $content.append(`
+                    <table class="table">
+                        <thead>
+                        <tr class="font-weight-bold">
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Magnitude</th>
+                            <th scope="col">Released On</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>`
+                );
+
+                viruses.forEach(virus => {
+                    $('tbody').append(`
+                        <tr>
+                            <th scope="row">${virus.id}</th>
+                            <td>${virus.name}</td>
+                            <td>${virus.magnitude}</td>
+                            <td>${virus.releasedOn}</td>
+                            <td>
+                                <a class="btn btn-outline-secondary" role="button" href="/virus/edit/${virus.id}">Edit</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-secondary" role="button" href="/virus/delete/${virus.id}">Delete</a>
+                            </td>
+                        </tr>`
+                    );
+                })
+            })
+    }
+
+    function loadCapitals() {
+        $title.text('All Capitals');
+        $content.empty();
+
+        fetch('/api/capitals')
+            .then(res => res.json())
+            .then(capitals => {
+                $content.append(`
+                    <table class="table">
+                        <thead>
+                        <tr class="font-weight-bold">
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col">Longitude</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>`
+                );
+
+                capitals.forEach((capital, id) => {
+                    $('tbody').append(`
+                        <tr>
+                            <th scope="row">${id + 1}</th>
+                            <td>${capital.name}</td>
+                            <td>${capital.latitude}</td>
+                            <td>${capital.longitude}</td>
+                        </tr>`
+                    );
+                })
+            });
+    }
+</script>
+</body>
+
+</html>
