@@ -10,7 +10,7 @@ public interface CapitalService {
 
     List<CapitalOptionViewModel> getAllForOptionsMenu();
 
-    List<CapitalViewModel> getAll();
+    List<CapitalViewModel> findAll();
 
     Capital getById(Long id);
 }

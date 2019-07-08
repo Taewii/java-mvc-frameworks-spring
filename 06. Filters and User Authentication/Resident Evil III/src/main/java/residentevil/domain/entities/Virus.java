@@ -1,6 +1,9 @@
 package residentevil.domain.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import residentevil.domain.enums.Magnitude;
 import residentevil.domain.enums.Mutation;
@@ -12,16 +15,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "viruses")
-public class Virus {
-
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-    private UUID id;
+public class Virus extends BaseEntity {
 
     @NotBlank
     @Size(min = 3, max = 10)

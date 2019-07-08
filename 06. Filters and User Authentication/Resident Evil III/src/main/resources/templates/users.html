@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:insert="fragments/head"/>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+    <main class="mx-auto w-50">
+        <h1 class="text-center my-5">All Users</h1>
+
+        <table class="table">
+            <thead>
+            <tr class="">
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Roles</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+</div>
+<th:block th:insert="fragments/scripts"/>
+
+<script th:inline="javascript">
+    const $tbody = $('tbody');
+
+    //TODO: post requests can be sent from an unauthorized user
+    fetch("/api/users")
+        .then(res => res.json())
+        .then(users => {
+            users.forEach((user, id) => {
+                $tbody.append(`
+                    <tr>
+                        <th scope="row">${id + 1}</th>
+                        <td>${user.username}</td>
+                        <td>
+                            <select class="form-control">
+                                <option>ADMIN</option>
+                                <option>MODERATOR</option>
+                                <option>USER</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-secondary" href="#" role="button">Edit</a>
+                        </td>
+                    </tr>
+                `)
+            })
+        })
+</script>
+</body>
+
+</html>

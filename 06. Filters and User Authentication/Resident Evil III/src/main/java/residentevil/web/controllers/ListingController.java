@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import residentevil.domain.models.view.CapitalViewModel;
+import residentevil.domain.models.view.UserViewModel;
 import residentevil.domain.models.view.VirusListViewModel;
 import residentevil.services.CapitalService;
+import residentevil.services.UserService;
 import residentevil.services.VirusService;
 
 import java.util.List;
@@ -16,19 +18,28 @@ public class ListingController {
 
     private final VirusService virusService;
     private final CapitalService capitalService;
+    private final UserService userService;
 
-    public ListingController(VirusService virusService, CapitalService capitalService) {
+    public ListingController(VirusService virusService,
+                             CapitalService capitalService,
+                             UserService userService) {
         this.virusService = virusService;
         this.capitalService = capitalService;
+        this.userService = userService;
     }
 
     @GetMapping("/viruses")
     public List<VirusListViewModel> showViruses() {
-       return virusService.findAll();
+        return virusService.findAll();
     }
 
     @GetMapping("/capitals")
     public List<CapitalViewModel> showCapitals() {
-        return capitalService.getAll();
+        return capitalService.findAll();
+    }
+
+    @GetMapping("/users")
+    public List<UserViewModel> showUsers() {
+        return userService.findAll();
     }
 }

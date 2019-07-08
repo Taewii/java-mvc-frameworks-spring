@@ -32,7 +32,7 @@ public class CapitalServiceImpl implements CapitalService {
     }
 
     @Override
-    public List<CapitalViewModel> getAll() {
+    public List<CapitalViewModel> findAll() {
         return capitalRepository.findAllByOrderByName()
                 .stream()
                 .map(c -> mapper.map(c, CapitalViewModel.class))
