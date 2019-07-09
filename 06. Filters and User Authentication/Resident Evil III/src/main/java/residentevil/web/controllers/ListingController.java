@@ -18,14 +18,11 @@ public class ListingController {
 
     private final VirusService virusService;
     private final CapitalService capitalService;
-    private final UserService userService;
 
     public ListingController(VirusService virusService,
-                             CapitalService capitalService,
-                             UserService userService) {
+                             CapitalService capitalService) {
         this.virusService = virusService;
         this.capitalService = capitalService;
-        this.userService = userService;
     }
 
     @GetMapping("/viruses")
@@ -36,10 +33,5 @@ public class ListingController {
     @GetMapping("/capitals")
     public List<CapitalViewModel> showCapitals() {
         return capitalService.findAll();
-    }
-
-    @GetMapping("/users")
-    public List<UserViewModel> showUsers() {
-        return userService.findAll();
     }
 }

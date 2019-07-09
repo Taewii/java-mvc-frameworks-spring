@@ -15,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findUserByUsername(@NotBlank String username);
 
     @Query(value = "SELECT COUNT(u) FROM User u WHERE u.authority = residentevil.domain.enums.Authority.ROOT")
-    int isRoot();
+    int rootCount();
 }

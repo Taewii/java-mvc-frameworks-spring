@@ -9,3 +9,7 @@ textarea {
 .options {
     margin: 0 70px;
 }
+
+select option:disabled {
+    background: #E9ECEF;
+}
