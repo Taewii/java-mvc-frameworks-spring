@@ -1,6 +1,8 @@
 package residentevil.domain.models.binding;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import residentevil.domain.enums.Magnitude;
 import residentevil.domain.enums.Mutation;
@@ -11,7 +13,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class VirusBindingModel {
 
     private UUID id;

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static residentevil.domain.enums.Authority.*;
 
-@Service
+@Service(value = "UserServiceImpl")
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
@@ -41,7 +41,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(RegisterUserBindingModel model) {
+    public boolean save(RegisterUserBindingModel model) {
+        User existingUser = userRepository.findUserByUsername(model.getUsername()).orElse(null);
+        if (existingUser != null) return false;
+
         User user = mapper.map(model, User.class);
 
         boolean isRoot = userRepository.rootCount() == 0;
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+        return true;
     }
 
     @Override

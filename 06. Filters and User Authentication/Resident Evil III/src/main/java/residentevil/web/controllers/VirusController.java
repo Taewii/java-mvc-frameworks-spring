@@ -17,6 +17,10 @@ import java.util.List;
 @RequestMapping("/virus")
 public class VirusController {
 
+    private static final String VIEW_ADD = "virus/add";
+    private static final String VIEW_EDIT = "virus/edit";
+    private static final String VIEW_DELETE = "virus/delete";
+
     private final CapitalService capitalService;
     private final VirusService virusService;
 
@@ -39,13 +43,13 @@ public class VirusController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("virus", new VirusBindingModel());
-        return "add";
+        return VIEW_ADD;
     }
 
     @PostMapping("/add")
     public String addPost(@Valid @ModelAttribute("virus") VirusBindingModel bindingModel, Errors errors) {
         if (errors.hasErrors()) {
-            return "add";
+            return VIEW_ADD;
         }
 
         virusService.save(bindingModel);
@@ -55,14 +59,14 @@ public class VirusController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable String id, Model model) {
         model.addAttribute("virus", virusService.findById(id));
-        return "edit";
+        return VIEW_EDIT;
     }
 
     @PutMapping("/edit")
     public String editPut(@Valid @ModelAttribute("virus") VirusBindingModel bindingModel,
                           Errors errors) {
         if (errors.hasErrors()) {
-            return "edit";
+            return VIEW_EDIT;
         }
 
         virusService.save(bindingModel);
@@ -72,7 +76,7 @@ public class VirusController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable String id, Model model) {
         model.addAttribute("virus", virusService.findById(id));
-        return "delete";
+        return VIEW_DELETE;
     }
 
     @DeleteMapping("/delete")

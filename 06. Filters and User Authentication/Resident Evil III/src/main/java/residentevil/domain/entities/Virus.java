@@ -1,10 +1,8 @@
 package residentevil.domain.entities;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import residentevil.domain.enums.Magnitude;
 import residentevil.domain.enums.Mutation;
 
@@ -13,7 +11,6 @@ import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter

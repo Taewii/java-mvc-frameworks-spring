@@ -13,3 +13,9 @@ textarea {
 select option:disabled {
     background: #E9ECEF;
 }
+
+.logout-btn {
+    background: #900C45;
+    border: none;
+    color: #fff;
+}

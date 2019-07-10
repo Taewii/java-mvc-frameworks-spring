@@ -1,8 +1,12 @@
 package residentevil.domain.models.view;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class CapitalOptionViewModel {
 
     private Long id;

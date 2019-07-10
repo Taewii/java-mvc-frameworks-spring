@@ -11,10 +11,14 @@
             </div>
             <div class="col-7 d-flex flex-wrap align-content-center">
                 <div class="radio">
-                    <label class="options"><input type="radio" name="optradio" id="viruses"> Viruses</label>
+                    <label class="options">
+                        <input id="viruses" name="optradio"
+                               th:classappend="${#authorization.expr('hasRole(''MODERATOR'')')} ? 'moderator'"
+                               type="radio"/> Viruses
+                    </label>
                 </div>
                 <div class="radio">
-                    <label class="options"><input type="radio" name="optradio" id="capitals"> Capitals</label>
+                    <label class="options"><input id="capitals" name="optradio" type="radio"> Capitals</label>
                 </div>
             </div>
         </div>
@@ -58,8 +62,9 @@
                     </table>`
                 );
 
-                viruses.forEach(virus => {
-                    $('tbody').append(`
+                if ($virusesBtn.hasClass('moderator')) {
+                    viruses.forEach(virus => {
+                        $('tbody').append(`
                         <tr>
                             <th scope="row">${virus.id}</th>
                             <td>${virus.name}</td>
@@ -72,8 +77,20 @@
                                 <a class="btn btn-outline-secondary" role="button" href="/virus/delete/${virus.id}">Delete</a>
                             </td>
                         </tr>`
-                    );
-                })
+                        );
+                    })
+                } else {
+                    viruses.forEach(virus => {
+                        $('tbody').append(`
+                        <tr>
+                            <th scope="row">${virus.id}</th>
+                            <td>${virus.name}</td>
+                            <td>${virus.magnitude}</td>
+                            <td>${virus.releasedOn}</td>
+                        </tr>`
+                        );
+                    })
+                }
             })
     }
 

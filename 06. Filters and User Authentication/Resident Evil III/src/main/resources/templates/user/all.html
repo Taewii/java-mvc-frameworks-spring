@@ -20,23 +20,23 @@
                     <th scope="row" th:text="${i.index + 1}"></th>
                     <td th:text="${user.username}"></td>
                     <td>
-                        <input type="hidden" th:value="${user.id}" name="id"/>
-                        <select class="form-control" name="role" id="role"
+                        <input name="id" th:value="${user.id}" type="hidden"/>
+                        <select class="form-control" id="role" name="role"
                                 th:disabled="${(#authorization.expr('hasRole(''ADMIN'')') and #authorization.expr('!hasRole(''ROOT'')'))
                             and user.authority.name() == 'ADMIN' or user.authority.name() == 'ROOT'}">
-                            <option th:each="role : ${T(residentevil.domain.enums.Authority).values()}"
+                            <option th:disabled="${role.name() == 'ROOT'}"
+                                    th:each="role : ${T(residentevil.domain.enums.Authority).values()}"
                                     th:selected="${user.authority == role}"
-                                    th:disabled="${role.name() == 'ROOT'}"
                                     th:text="${role}"
                                     th:value="${role}"></option>
                         </select>
                     </td>
                     <td>
-                        <button class="btn btn-outline-secondary" type="submit"
-                                th:classappend="${(#authorization.expr('hasRole(''ADMIN'')') and #authorization.expr('!hasRole(''ROOT'')'))
+                        <button class="btn btn-outline-secondary" th:classappend="${(#authorization.expr('hasRole(''ADMIN'')') and #authorization.expr('!hasRole(''ROOT'')'))
                        and user.authority.name() == 'ADMIN' or user.authority.name() == 'ROOT' ? 'disabled' : ''}"
                                 th:disabled="${(#authorization.expr('hasRole(''ADMIN'')') and #authorization.expr('!hasRole(''ROOT'')'))
-                            and user.authority.name() == 'ADMIN' or user.authority.name() == 'ROOT'}">Edit
+                            and user.authority.name() == 'ADMIN' or user.authority.name() == 'ROOT'}"
+                                type="submit">Edit
                         </button>
                     </td>
                 </form>
