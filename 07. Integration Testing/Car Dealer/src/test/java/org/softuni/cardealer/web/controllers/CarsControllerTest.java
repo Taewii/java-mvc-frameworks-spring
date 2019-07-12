@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CarsControllerTest {
 
     private static final String REDIRECT_PATTERN_USERS_LOGIN = "**/users/login";
+    private static final String ALL_CARS_VIEW = "all-cars";
 
     private static final String URL_CARS_BASE = "/cars";
     private static final String URL_CARS_ADD = URL_CARS_BASE + "/add";
@@ -270,6 +271,7 @@ public class CarsControllerTest {
 
         mockMvc.perform(get(URL_CARS_ALL))
                 .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name(ALL_CARS_VIEW))
                 .andExpect(model().attributeExists(CARS_ATTRIBUTE))
                 .andExpect(model().attribute(CARS_ATTRIBUTE, hasSize(1)));
     }
