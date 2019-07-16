@@ -6,9 +6,9 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Handler;
 
 @Getter
 @Setter
@@ -22,14 +22,19 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true, updatable = false)
     private Integer id;
 
+    @NotBlank
     @Column(nullable = false)
-    private String role;
+    private String name;
 
-    @ManyToMany(mappedBy = "roles") // TODO: 16.7.2019 г. eager?
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+    public Role(@NotBlank String name) {
+        this.name = name;
+    }
 
     @Override
     public String getAuthority() {
-        return this.role;
+        return this.name;
     }
 }

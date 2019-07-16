@@ -11,4 +11,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findUserByUsername(String username);
+
+//    @Query("SELECT u.roles FROM User u WHERE u.id = :id")
+//    List<Role> getUserRoles(@Param("id") UUID id);
 }

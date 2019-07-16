@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,16 +20,20 @@ import java.util.Set;
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String username;
 
+    @NotBlank
     @Column(nullable = false)
     private String password;
 
+    @NotBlank
     @Column(nullable = false)
     private String email;
 
-    @ManyToMany
+    @NotEmpty
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -61,5 +67,10 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     public boolean isEnabled() {
         return true;
+    }
+
+    public void addRole(Role role) {
+        this.getRoles().add(role);
+        role.getUsers().add(this);
     }
 }
