@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -11,15 +12,16 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class RegisterUserBindingModel {
 
-    @NotBlank
+    @NotBlank(message = "Please enter a username.")
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Please enter a password.")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "Please re-enter your password.")
     private String confirmPassword;
 
-    @NotBlank
+    @Email(message = "Please enter a valid email.")
+    @NotBlank(message = "Please enter an email.")
     private String email;
 }
