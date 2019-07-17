@@ -1,6 +1,7 @@
 package productshop.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,6 +13,7 @@ import productshop.domain.models.binding.RegisterUserBindingModel;
 import productshop.services.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -26,13 +28,13 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "user/login";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new RegisterUserBindingModel());
-        return "register";
+        return "user/register";
     }
 
     @PostMapping("/register")
@@ -43,14 +45,21 @@ public class UserController {
                 errors.rejectValue("password", "400", "Passwords don't match.");
                 errors.rejectValue("confirmPassword", "400", "Passwords don't match.");
             }
-            return "register";
+            return "user/register";
         }
 
         if (!userService.register(user)) {
             errors.rejectValue("username", "400", "Username is already in use.");
-            return "register";
+            return "user/register";
         }
 
         return "redirect:/users/login";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/profile")
+    public String profile(Model model, Principal principal) {
+        model.addAttribute("user", userService.getByUsername(principal.getName()));
+        return "user/profile";
     }
 }

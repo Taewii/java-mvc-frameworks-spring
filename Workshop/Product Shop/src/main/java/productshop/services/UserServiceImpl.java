@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import productshop.domain.entities.Role;
 import productshop.domain.entities.User;
 import productshop.domain.models.binding.RegisterUserBindingModel;
+import productshop.domain.models.view.UserProfileViewModel;
 import productshop.repositories.RoleRepository;
 import productshop.repositories.UserRepository;
 
@@ -65,6 +66,11 @@ public class UserServiceImpl implements UserService {
 
         userRepository.saveAndFlush(user);
         return true;
+    }
+
+    @Override
+    public UserProfileViewModel getByUsername(String name) {
+        return mapper.map(userRepository.findByUsername(name), UserProfileViewModel.class);
     }
 
     private void setUserRoles(String role, User user) {
