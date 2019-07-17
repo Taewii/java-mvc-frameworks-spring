@@ -1,0 +1,51 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head :: head"></head>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+
+    <main class="mt-3">
+        <h1 class="text-center text-dark">All Users</h1>
+        <hr class="hr-2 bg-dark w-75">
+        <table class="table table-hover w-75 mx-auto">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-md-2 text-center">#</th>
+                <th class="col-md-3 text-center">Username</th>
+                <th class="col-md-2 text-center">Email</th>
+                <th class="col-md-2 text-center">Roles</th>
+                <th class="col-md-3 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr class="row mx-auto" th:each="user, i : ${users}">
+                <th class="col-md-2 text-center" th:text="${i.index + 1}"></th>
+                <td class="col-md-3 text-center" th:text="${user.username}">spaska</td>
+                <td class="col-md-2 text-center" th:text="${user.email}">spaska@abv.bg</td>
+                <td class="col-md-2 text-center" th:text="${#strings.listJoin(user.roles, ', ')}">USER</td>
+                <td class="col-md-3 text-center">
+
+                    <div class="row">
+                        <th:block th:each="role : ${T(productshop.domain.enums.Authority).values()}">
+                            <form class="mx-1"
+                                  th:action="@{/users/set-{link}/{id}(id=${user.id}, link=${#strings.toLowerCase(role.name())})}"
+                                  th:method="POST"
+                                  th:unless="${role == user.mainRole or role.name() == 'ROOT' or user.mainRole.name() == 'ROOT'}">
+                                <button class="btn btn-dark" th:text="${role.name()}"></button>
+                            </form>
+                        </th:block>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <hr class="hr-2 bg-dark">
+    </main>
+
+    <th:block th:insert="fragments/footer"/>
+</div>
+<th:block th:insert="fragments/scripts"/>
+</body>
+
+</html>

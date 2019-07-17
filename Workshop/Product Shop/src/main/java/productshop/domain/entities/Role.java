@@ -39,4 +39,8 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return authority.asRole();
     }
+
+    public Authority authorityAsEnum() {
+        return this.authority;
+    }
 }

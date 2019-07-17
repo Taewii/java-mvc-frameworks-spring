@@ -1,5 +1,5 @@
-<header th:fragment="header" xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        xmlns:th="http://www.thymeleaf.org">
     <nav class="navbar navbar-expand-lg navbar-light bg-light rounded font-weight-bold">
         <a class="navbar-brand" th:href="@{/}">✳✶ 🎀 𝒫𝓇🍑𝒹𝓊𝒸𝓉 𝒮𝒽💙𝓅 🎀 ✶✳</a>
         <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
@@ -28,11 +28,12 @@
 
                 <li class="nav-item active" sec:authorize="hasRole('MODERATOR')">
                     <div class="dropdown show">
-                        <a class="nav-link active dropdown-toggle" href="#" role="button" id="moderatorDropdown"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link active dropdown-toggle"
+                           data-toggle="dropdown"
+                           href="#" id="moderatorDropdown" role="button">
                             Moderator
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="moderatorDropdown">
+                        <div aria-labelledby="moderatorDropdown" class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{/categories/add}">Add Category</a>
                             <a class="dropdown-item" th:href="@{/products/add}">Add Product</a>
                             <div class="dropdown-divider"></div>
@@ -44,11 +45,12 @@
 
                 <li class="nav-item active" sec:authorize="hasRole('ADMIN')">
                     <div class="dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" role="button" id="adminDropdown"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link active dropdown-toggle"
+                           data-toggle="dropdown"
+                           href="#" id="adminDropdown" role="button">
                             Admin
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                        <div aria-labelledby="adminDropdown" class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{/users/all}">All Users</a>
                         </div>
                     </div>

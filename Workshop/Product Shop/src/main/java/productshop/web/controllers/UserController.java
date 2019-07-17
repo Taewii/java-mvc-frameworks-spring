@@ -99,4 +99,11 @@ public class UserController {
         request.logout(); // force re-logging
         return "redirect:/users/login";
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public String all(Model model) {
+        model.addAttribute("users", userService.findAll());
+        return "user/all";
+    }
 }

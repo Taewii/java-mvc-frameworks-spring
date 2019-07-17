@@ -7,7 +7,8 @@
     <main class="mt-3">
         <div class="jumbotron bg-light" th:object="${user}">
             <div class="text-center">
-                <img src="https://res.cloudinary.com/rado-cloud/image/upload/v1553353764/manager-512.png" alt="profileImg">
+                <img alt="profileImg"
+                     src="https://res.cloudinary.com/rado-cloud/image/upload/v1553353764/manager-512.png">
             </div>
             <div class="row">
                 <div class="col col-md-12 text-center">
@@ -21,7 +22,7 @@
             </div>
             <hr class="hr-2 bg-dark">
             <div class="button-holder d-flex justify-content-center">
-                <a th:href="@{/users/edit}" class="btn btn-dark">Edit Profile</a>
+                <a class="btn btn-dark" th:href="@{/users/edit}">Edit Profile</a>
             </div>
         </div>
     </main>
