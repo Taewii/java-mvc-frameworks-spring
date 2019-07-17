@@ -2,7 +2,6 @@ package productshop.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +13,8 @@ import productshop.repositories.RoleRepository;
 import productshop.repositories.UserRepository;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -45,13 +45,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByUsername(username)
+        return userRepository.findByUsernameEager(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with such username doesn't exist."));
     }
 
     @Override
     public boolean register(RegisterUserBindingModel model) {
-        if (userRepository.findUserByUsername(model.getUsername()).isPresent()) {
+        if (userRepository.findByUsernameEager(model.getUsername()).isPresent()) {
             return false;
         }
 
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.count() == 0) {
             this.setUserRoles("ROOT", user);
         } else {
-            this.setUserRoles("USER" , user);
+            this.setUserRoles("USER", user);
         }
 
         userRepository.saveAndFlush(user);

@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import productshop.domain.enums.Authority;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,19 +23,20 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true, updatable = false)
     private Integer id;
 
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String name;
+    private Authority authority;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
-    public Role(@NotBlank String name) {
-        this.name = name;
+    public Role(Authority authority) {
+        this.authority = authority;
     }
 
     @Override
     public String getAuthority() {
-        return this.name;
+        return authority.asRole();
     }
 }

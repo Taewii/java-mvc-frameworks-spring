@@ -9,16 +9,16 @@
         <hr class="hr-2 bg-dark w-25">
         <form class="form w-25 mx-auto" th:action="@{/users/login}" th:method="POST">
             <div class="form-group">
-                <label for="username" class="font-weight-bold">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Username..." name="username">
+                <label class="font-weight-bold" for="username">Username</label>
+                <input class="form-control" id="username" name="username" placeholder="Username..." type="text">
             </div>
             <div class="form-group">
-                <label for="password" class="font-weight-bold">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password..." name="password">
+                <label class="font-weight-bold" for="password">Password</label>
+                <input class="form-control" id="password" name="password" placeholder="Password..." type="password">
             </div>
             <hr class="hr-2 bg-dark">
             <div class="button-holder d-flex justify-content-center">
-                <button type="submit" class="btn btn-dark">Login</button>
+                <button class="btn btn-dark" type="submit">Login</button>
             </div>
         </form>
     </main>
