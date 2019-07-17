@@ -8,8 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Role;
 import productshop.domain.entities.User;
+import productshop.domain.models.binding.EditUserProfileBindingModel;
 import productshop.domain.models.binding.RegisterUserBindingModel;
-import productshop.domain.models.view.UserProfileViewModel;
 import productshop.repositories.RoleRepository;
 import productshop.repositories.UserRepository;
 
@@ -69,8 +69,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileViewModel getByUsername(String name) {
-        return mapper.map(userRepository.findByUsername(name), UserProfileViewModel.class);
+    public <T> T getByUsername(String username, Class<T> targetClass) {
+        return mapper.map(userRepository.findByUsername(username), targetClass);
+    }
+
+    @Override
+    public boolean edit(String username, EditUserProfileBindingModel model) {
+        User user = userRepository.findByUsername(username);
+        if (!bCryptPasswordEncoder.matches(model.getOldPassword(), user.getPassword())) {
+            return false;
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(model.getNewPassword()));
+        user.setEmail(model.getEmail());
+
+        userRepository.saveAndFlush(user);
+        return true;
     }
 
     private void setUserRoles(String role, User user) {

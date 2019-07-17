@@ -5,13 +5,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import productshop.domain.models.binding.EditUserProfileBindingModel;
 import productshop.domain.models.binding.RegisterUserBindingModel;
+import productshop.domain.models.view.EditUserProfileViewModel;
+import productshop.domain.models.view.UserProfileViewModel;
 import productshop.services.UserService;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -48,7 +50,8 @@ public class UserController {
             return "user/register";
         }
 
-        if (!userService.register(user)) {
+        boolean isSuccessful = userService.register(user);
+        if (!isSuccessful) {
             errors.rejectValue("username", "400", "Username is already in use.");
             return "user/register";
         }
@@ -59,7 +62,41 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String profile(Model model, Principal principal) {
-        model.addAttribute("user", userService.getByUsername(principal.getName()));
+        model.addAttribute("user",
+                userService.getByUsername(principal.getName(), UserProfileViewModel.class));
         return "user/profile";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/edit")
+    public String profileEdit(Model model, Principal principal) {
+        model.addAttribute("profile",
+                userService.getByUsername(principal.getName(), EditUserProfileViewModel.class));
+        return "user/profile-edit";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/edit")
+    public String profileEditPut(@Valid @ModelAttribute("profile") EditUserProfileBindingModel profile,
+                                 HttpServletRequest request,
+                                 Principal principal,
+                                 Errors errors) throws ServletException {
+        boolean passwordsMatch = profile.getNewPassword().equals(profile.getNewPasswordConfirm());
+        if (errors.hasErrors() || !passwordsMatch) {
+            if (!passwordsMatch) {
+                errors.rejectValue("newPassword", "400", "Passwords don't match.");
+                errors.rejectValue("newPasswordConfirm", "400", "Passwords don't match.");
+            }
+            return "user/profile-edit";
+        }
+
+        boolean isSuccessful = userService.edit(principal.getName(), profile);
+        if (!isSuccessful) {
+            errors.rejectValue("oldPassword", "400", "Wrong password.");
+            return "user/profile-edit";
+        }
+
+        request.logout(); // force re-logging
+        return "redirect:/users/login";
     }
 }

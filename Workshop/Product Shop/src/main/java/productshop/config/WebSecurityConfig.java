@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
-import productshop.domain.enums.Authority;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
+
         http
                 .cors()
                     .disable()
@@ -43,8 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .antMatchers("/users/register", "/users/login")
                         .anonymous()
-                    .antMatchers("/home")
-                        .hasRole(Authority.ROOT.name())
                     .anyRequest()
                         .authenticated()
                     .and()
@@ -60,5 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/");
+
+        // @formatter:on
     }
 }
