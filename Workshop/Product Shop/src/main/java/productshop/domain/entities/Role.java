@@ -16,12 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true, updatable = false)
-    private Integer id;
+public class Role extends BaseLongEntity implements GrantedAuthority {
 
     @NotNull
     @Enumerated(EnumType.STRING)

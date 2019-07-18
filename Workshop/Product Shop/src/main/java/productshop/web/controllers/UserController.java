@@ -109,7 +109,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/set-{role}/{id}")
-    public String change(@PathVariable("id") String id, @PathVariable("role") String role) {
+    public String changeUserRole(@PathVariable("id") String id, @PathVariable("role") String role) {
         userService.changeRole(id, role);
         return "redirect:/users/all";
     }

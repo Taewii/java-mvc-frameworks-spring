@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+public class User extends BaseUUIDEntity implements UserDetails {
 
     @NotBlank
     @Column(nullable = false, unique = true)
@@ -69,10 +69,5 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     public boolean isEnabled() {
         return true;
-    }
-
-    public void addRole(Role role) {
-        this.getRoles().add(role);
-        role.getUsers().add(this);
     }
 }

@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
     private Set<Role> getInheritedRolesFromRole(String role) {
         Set<Role> roles = new HashSet<>();
         for (int i = ROLES.indexOf(role.toUpperCase()); i < ROLES.size(); i++) {
-            roles.add(roleRepository.getOne(i + 1));
+            roles.add(roleRepository.findById(i + 1L).orElseThrow());
         }
 
         return roles;
