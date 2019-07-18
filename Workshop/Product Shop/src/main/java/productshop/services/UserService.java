@@ -16,4 +16,6 @@ public interface UserService extends UserDetailsService {
     boolean edit(String username, EditUserProfileBindingModel profile);
 
     List<ListUserWithRolesViewModel> findAll();
+
+    void changeRole(String userId, String newRole);
 }

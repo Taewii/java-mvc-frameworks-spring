@@ -16,10 +16,7 @@ import productshop.repositories.RoleRepository;
 import productshop.repositories.UserRepository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("UserServiceImpl")
@@ -64,9 +61,9 @@ public class UserServiceImpl implements UserService {
         User user = mapper.map(model, User.class);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         if (userRepository.count() == 0) {
-            this.setUserRoles("ROOT", user);
+            user.setRoles(this.getInheritedRolesFromRole("ROOT"));
         } else {
-            this.setUserRoles("USER", user);
+            user.setRoles(this.getInheritedRolesFromRole("USER"));
         }
 
         userRepository.saveAndFlush(user);
@@ -106,8 +103,18 @@ public class UserServiceImpl implements UserService {
                 }).collect(Collectors.toUnmodifiableList());
     }
 
+    @Override
+    public void changeRole(String userId, String newRole) {
+        if (newRole.equalsIgnoreCase("root")) {
+            throw new IllegalArgumentException("Cannot change role to ROOT.");
+        }
+
+        User user = userRepository.findById(UUID.fromString(userId)).orElseThrow();
+        user.setRoles(this.getInheritedRolesFromRole(newRole));
+        userRepository.saveAndFlush(user);
+    }
+
     private Authority getMainRole(Set<Role> roles) {
-        // this is written so bad its embarrassing..
         List<Authority> authorities = Arrays.asList(Authority.values());
 
         int bestRoleIndex = Integer.MAX_VALUE;
@@ -121,10 +128,12 @@ public class UserServiceImpl implements UserService {
         return authorities.get(bestRoleIndex);
     }
 
-    private void setUserRoles(String role, User user) {
-        for (int i = ROLES.indexOf(role); i < ROLES.size(); i++) {
-            Role byName = roleRepository.getOne(i + 1);
-            user.addRole(byName);
+    private Set<Role> getInheritedRolesFromRole(String role) {
+        Set<Role> roles = new HashSet<>();
+        for (int i = ROLES.indexOf(role.toUpperCase()); i < ROLES.size(); i++) {
+            roles.add(roleRepository.getOne(i + 1));
         }
+
+        return roles;
     }
 }

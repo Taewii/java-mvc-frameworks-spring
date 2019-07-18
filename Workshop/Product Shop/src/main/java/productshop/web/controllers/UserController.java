@@ -106,4 +106,11 @@ public class UserController {
         model.addAttribute("users", userService.findAll());
         return "user/all";
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/set-{role}/{id}")
+    public String change(@PathVariable("id") String id, @PathVariable("role") String role) {
+        userService.changeRole(id, role);
+        return "redirect:/users/all";
+    }
 }
