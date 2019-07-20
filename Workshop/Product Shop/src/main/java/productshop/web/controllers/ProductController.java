@@ -114,6 +114,6 @@ public class ProductController {
         }
 
         productService.delete(model);
-        return "redirect:/";
+        return "redirect:/products/all";
     }
 }

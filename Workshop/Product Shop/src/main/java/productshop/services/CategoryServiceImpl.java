@@ -7,6 +7,7 @@ import productshop.domain.entities.Category;
 import productshop.domain.models.binding.AddCategoryBindingModel;
 import productshop.domain.models.binding.EditCategoryBindingModel;
 import productshop.domain.models.view.ListCategoriesViewModel;
+import productshop.domain.models.view.ListProductsViewModel;
 import productshop.repositories.CategoryRepository;
 
 import java.util.List;
@@ -67,5 +68,15 @@ public class CategoryServiceImpl implements CategoryService {
     public void remove(String categoryName) {
         Category category = categoryRepository.findByName(categoryName).orElseThrow();
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public List<ListProductsViewModel> getProductsByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findByIdEager(categoryId).orElseThrow();
+        return category
+                .getProducts()
+                .stream()
+                .map(p -> mapper.map(p, ListProductsViewModel.class))
+                .collect(Collectors.toUnmodifiableList());
     }
 }

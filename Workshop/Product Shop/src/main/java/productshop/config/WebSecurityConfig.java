@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginPage("/users/login")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/home")
                     .and()
                 .rememberMe()
                     .userDetailsService(userService)

@@ -53,7 +53,7 @@ public class CategoryController {
             return "category/add";
         }
 
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @PreAuthorize("hasRole('MODERATOR')")
