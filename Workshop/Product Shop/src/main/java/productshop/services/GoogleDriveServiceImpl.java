@@ -123,6 +123,15 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
         }
     }
 
+    @Override
+    public void delete(String fileId) {
+        try {
+            service.files().delete(fileId).execute();
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e);
+        }
+    }
+
     private Credential getCredentials(NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
         InputStream in = GoogleDriveServiceImpl.class.getResourceAsStream(CREDENTIALS_FILE_PATH);

@@ -1,0 +1,55 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head :: head"></head>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Edit Product</h1>
+        <hr class="hr-2 bg-dark w-25">
+        <form class="form w-25 mx-auto" enctype="multipart/form-data"
+              id="edit-product-form" th:action="@{/products/edit}"
+              th:method="POST" th:object="${product}">
+            <input th:field="*{id}" th:value="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="font-weight-bold" for="edit-product-name">Name</label>
+                <input class="form-control text-center" id="edit-product-name" th:errorclass="is-invalid"
+                       th:field="*{name}" th:value="*{name}" type="text">
+                <div class="invalid-feedback" th:errors="*{name}"></div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="edit-product-description">Description</label>
+                <textarea class="form-control" cols="41" id="edit-product-description" name="description" rows="5"
+                          th:field="*{description}" th:value="*{description}"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="edit-product-price">Price</label>
+                <input class="form-control text-center" id="edit-product-price" name="price" step="any" th:errorclass="is-invalid"
+                       th:field="*{price}" th:value="*{price}" type="number">
+                <div class="invalid-feedback" th:errors="*{price}"></div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="edit-product-categories">Categories</label>
+                <select class="form-control" id="edit-product-categories" multiple th:errorclass="is-invalid"
+                        th:field="*{categories}">
+                    <option disabled selected value="">--- Select Categories ---</option>
+                    <th:block th:each="category : ${categories}">
+                        <option th:selected="${#sets.contains(product.categories, category.id)}"
+                                th:text="${category.name}" th:value="${category.id}"></option>
+                    </th:block>
+                </select>
+                <div class="invalid-feedback" th:errors="*{categories}"></div>
+            </div>
+            <hr class="hr-2 bg-dark w-25">
+            <div class="button-holder d-flex justify-content-center">
+                <button class="btn btn-success" type="submit">Edit Product</button>
+            </div>
+        </form>
+    </main>
+
+    <th:block th:insert="fragments/footer"/>
+</div>
+<th:block th:insert="fragments/scripts"/>
+</body>
+
+</html>

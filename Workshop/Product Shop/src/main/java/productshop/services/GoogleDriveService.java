@@ -11,4 +11,6 @@ public interface GoogleDriveService {
     void downloadFile(String fileId, String fileName, String fileExtension, String path);
 
     void printFile(String fileId);
+
+    void delete(String fileId);
 }
