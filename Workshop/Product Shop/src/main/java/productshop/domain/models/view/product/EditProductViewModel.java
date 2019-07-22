@@ -1,8 +1,9 @@
-package productshop.domain.models.view;
+package productshop.domain.models.view.product;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import productshop.domain.models.base.ProductModel;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DeleteProductViewModel {
+public class EditProductViewModel implements ProductModel {
 
     private String id;
     private String name;

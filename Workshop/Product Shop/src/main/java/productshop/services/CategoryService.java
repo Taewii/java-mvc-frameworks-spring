@@ -1,9 +1,9 @@
 package productshop.services;
 
-import productshop.domain.models.binding.AddCategoryBindingModel;
-import productshop.domain.models.binding.EditCategoryBindingModel;
-import productshop.domain.models.view.ListCategoriesViewModel;
-import productshop.domain.models.view.ListProductsViewModel;
+import productshop.domain.models.binding.category.AddCategoryBindingModel;
+import productshop.domain.models.binding.category.EditCategoryBindingModel;
+import productshop.domain.models.view.category.ListCategoriesViewModel;
+import productshop.domain.models.view.product.ListProductsViewModel;
 
 import java.util.List;
 

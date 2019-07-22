@@ -4,10 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Category;
-import productshop.domain.models.binding.AddCategoryBindingModel;
-import productshop.domain.models.binding.EditCategoryBindingModel;
-import productshop.domain.models.view.ListCategoriesViewModel;
-import productshop.domain.models.view.ListProductsViewModel;
+import productshop.domain.models.binding.category.AddCategoryBindingModel;
+import productshop.domain.models.binding.category.EditCategoryBindingModel;
+import productshop.domain.models.view.category.ListCategoriesViewModel;
+import productshop.domain.models.view.product.ListProductsViewModel;
 import productshop.repositories.CategoryRepository;
 
 import java.util.List;

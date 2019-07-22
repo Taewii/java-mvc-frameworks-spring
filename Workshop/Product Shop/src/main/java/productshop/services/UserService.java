@@ -1,9 +1,9 @@
 package productshop.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import productshop.domain.models.binding.EditUserProfileBindingModel;
-import productshop.domain.models.binding.RegisterUserBindingModel;
-import productshop.domain.models.view.ListUserWithRolesViewModel;
+import productshop.domain.models.binding.user.EditUserProfileBindingModel;
+import productshop.domain.models.binding.user.RegisterUserBindingModel;
+import productshop.domain.models.view.user.ListUserWithRolesViewModel;
 
 import java.util.List;
 

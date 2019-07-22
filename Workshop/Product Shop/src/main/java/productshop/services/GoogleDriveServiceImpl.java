@@ -27,7 +27,7 @@ import java.util.Set;
 @Service
 public class GoogleDriveServiceImpl implements GoogleDriveService {
 
-    private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
+    private static final String APPLICATION_NAME = "Product Shop Spring MVC Workshop";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);

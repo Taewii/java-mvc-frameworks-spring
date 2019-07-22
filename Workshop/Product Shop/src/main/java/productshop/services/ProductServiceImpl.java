@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Category;
 import productshop.domain.entities.Product;
-import productshop.domain.models.binding.AddProductBindingModel;
-import productshop.domain.models.binding.DeleteProductBindingModel;
-import productshop.domain.models.binding.EditProductBindingModel;
-import productshop.domain.models.view.ListProductsViewModel;
+import productshop.domain.models.binding.product.AddProductBindingModel;
+import productshop.domain.models.binding.product.DeleteProductBindingModel;
+import productshop.domain.models.binding.product.EditProductBindingModel;
+import productshop.domain.models.view.product.ListProductsViewModel;
 import productshop.repositories.CategoryRepository;
 import productshop.repositories.ProductRepository;
 

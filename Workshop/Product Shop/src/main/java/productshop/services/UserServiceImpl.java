@@ -6,12 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import productshop.config.Constants;
 import productshop.domain.entities.Role;
 import productshop.domain.entities.User;
 import productshop.domain.enums.Authority;
-import productshop.domain.models.binding.EditUserProfileBindingModel;
-import productshop.domain.models.binding.RegisterUserBindingModel;
-import productshop.domain.models.view.ListUserWithRolesViewModel;
+import productshop.domain.models.binding.user.EditUserProfileBindingModel;
+import productshop.domain.models.binding.user.RegisterUserBindingModel;
+import productshop.domain.models.view.user.ListUserWithRolesViewModel;
 import productshop.repositories.RoleRepository;
 import productshop.repositories.UserRepository;
 
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsernameEager(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User with such username doesn't exist."));
+                .orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_NOT_FOUND));
     }
 
     @Override
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeRole(String userId, String newRole) {
         if (newRole.equalsIgnoreCase("root")) {
-            throw new IllegalArgumentException("Cannot change role to ROOT.");
+            throw new IllegalArgumentException(Constants.CANNOT_CHANGE_TO_ROOT);
         }
 
         User user = userRepository.findById(UUID.fromString(userId)).orElseThrow();

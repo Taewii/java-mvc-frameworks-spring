@@ -10,15 +10,15 @@
                 <h2 class="font-weight-bold">Navigation</h2>
                 <div class="mt-3 radio-holder">
                     <div class="custom-control custom-radio mt-3">
-                        <input type="radio" id="allRadio" name="selection"
-                               class="custom-control-input" value="0">
+                        <input class="custom-control-input" id="allRadio" name="selection"
+                               type="radio" value="0">
                         <label class="h4 custom-control-label" for="allRadio">All</label>
                     </div>
 
                     <div class="custom-control custom-radio mt-3" th:each="category : ${categories}">
-                        <input type="radio" name="selection"
-                               class="custom-control-input" th:id="${#strings.toLowerCase(category.name)}"
-                               th:value="${category.id}">
+                        <input class="custom-control-input" name="selection"
+                               th:id="${#strings.toLowerCase(category.name)}" th:value="${category.id}"
+                               type="radio">
                         <label class="h4 custom-control-label" th:for="${#strings.toLowerCase(category.name)}"
                                th:text="${category.name}"></label>
                     </div>
@@ -63,10 +63,17 @@
                     $('#products > .product:lt(3)')
                         .wrapAll('<div class="products-row row d-flex justify-content-around mt-5"></div>')
                 }
+
+                sessionStorage.setItem("selectedCategory", category);
             })
     });
 
-    $('input[value="0"]').click(); // selects the 'all' option by default
+    let selectedCategory = 0; // selects the 'all' option by default
+    if (sessionStorage.getItem("selectedCategory")) {
+        selectedCategory = sessionStorage.getItem("selectedCategory");
+    }
+
+    $(`input[value="${selectedCategory}"]`).click();
 </script>
 </body>
 
