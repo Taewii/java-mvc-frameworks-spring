@@ -55,3 +55,7 @@
 *.exe
 *.out
 *.app
+
+# Google Drive API Credentials
+StoredCredential
+credentials.json
