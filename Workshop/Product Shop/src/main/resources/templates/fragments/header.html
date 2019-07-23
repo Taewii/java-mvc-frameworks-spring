@@ -25,6 +25,9 @@
                 </th:block>
 
                 <li class="nav-item active" sec:authorize="!isAnonymous()">
+                    <a class="nav-link" th:href="@{/orders/mine}">My Orders</a>
+                </li>
+                <li class="nav-item active" sec:authorize="!isAnonymous()">
                     <a class="nav-link" th:href="@{/users/profile}">Profile</a>
                 </li>
 
@@ -54,6 +57,7 @@
                         </a>
                         <div aria-labelledby="adminDropdown" class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{/users/all}">All Users</a>
+                            <a class="dropdown-item" th:href="@{/orders/all}">All Orders</a>
                         </div>
                     </div>
                 </li>

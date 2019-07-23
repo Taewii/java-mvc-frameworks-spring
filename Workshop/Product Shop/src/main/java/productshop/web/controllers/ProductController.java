@@ -68,7 +68,8 @@ public class ProductController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/details/{id}")
     public String details(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {
-        model.addAttribute("product", productService.findById(id, DetailsProductViewModel.class));
+        model.addAttribute("product", productService.findByIdEager(id, DetailsProductViewModel.class));
+        model.addAttribute("productId", id.toString());
         return "product/details";
     }
 
@@ -98,7 +99,7 @@ public class ProductController {
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {
-        model.addAttribute(PRODUCT_ATTRIBUTE, productService.findById(id, EditProductViewModel.class));
+        model.addAttribute(PRODUCT_ATTRIBUTE, productService.findByIdEager(id, EditProductViewModel.class));
         return EDIT_VIEW;
     }
 
@@ -116,7 +117,7 @@ public class ProductController {
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {
-        model.addAttribute(PRODUCT_ATTRIBUTE, productService.findById(id, DeleteProductViewModel.class));
+        model.addAttribute(PRODUCT_ATTRIBUTE, productService.findByIdEager(id, DeleteProductViewModel.class));
         return DELETE_VIEW;
     }
 

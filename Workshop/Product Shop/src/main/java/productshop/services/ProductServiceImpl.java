@@ -57,8 +57,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public <T> T findById(UUID id, Class<T> targetClass) {
+    public <T> T findByIdEager(UUID id, Class<T> targetClass) {
         return mapper.map(productRepository.findByIdEager(id).orElseThrow(), targetClass);
+    }
+
+    @Override
+    public <T> T findById(UUID id, Class<T> targetClass) {
+        return mapper.map(productRepository.findById(id).orElseThrow(), targetClass);
     }
 
     @Override

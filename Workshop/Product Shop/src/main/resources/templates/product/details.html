@@ -25,6 +25,11 @@
                     <h4 th:text="|Price: *{#numbers.formatCurrency(price)}|"></h4>
                 </div>
             </div>
+            <div class="row">
+                <div class="col col-md-12 text-center">
+                    <a class="btn btn-success my-3" th:href="@{/orders/product/{id}(id=${productId})}">Order Product</a>
+                </div>
+            </div>
         </div>
     </main>
 

@@ -12,6 +12,8 @@ public interface ProductService {
 
     String add(AddProductBindingModel model);
 
+    <T> T findByIdEager(UUID id, Class<T> targetClass);
+
     <T> T findById(UUID id, Class<T> targetClass);
 
     List<ListProductsViewModel> findAll();

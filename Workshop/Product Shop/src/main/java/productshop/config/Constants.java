@@ -23,11 +23,15 @@ public final class Constants {
 
     public static final String CATEGORY_ALREADY_EXISTS_MESSAGE = "Category already exists.";
 
+    public static final String NULL_QUANTITY_MESSAGE = "Please choose a quantity.";
+    public static final String NEGATIVE_ORDER_QUANTITY_MESSAGE = "Minimum quantity is 1.";
+
     public static final String IS_MODERATOR = "hasRole('MODERATOR')";
     public static final String IS_ADMIN = "hasRole('ADMIN')";
 
     public static final String CANNOT_CHANGE_TO_ROOT = "Cannot change role to ROOT.";
     public static final String USERNAME_NOT_FOUND = "User with such username doesn't exist.";
+    public static final String INVALID_DATA = "Invalid data.";
 
 
     private Constants() {

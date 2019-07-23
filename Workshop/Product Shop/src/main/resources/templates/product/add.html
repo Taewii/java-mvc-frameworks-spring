@@ -23,7 +23,8 @@
             </div>
             <div class="form-group">
                 <label class="font-weight-bold" for="add-product-price">Price</label>
-                <input class="form-control text-center" id="add-product-price" name="price" step="any" th:errorclass="is-invalid"
+                <input class="form-control text-center" id="add-product-price" name="price" step="any"
+                       th:errorclass="is-invalid"
                        th:field="*{price}" th:value="*{price}" type="number">
                 <div class="invalid-feedback" th:errors="*{price}"></div>
             </div>
