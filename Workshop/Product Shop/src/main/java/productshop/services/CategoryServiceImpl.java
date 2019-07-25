@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean add(AddCategoryBindingModel model) {
-        if (categoryRepository.findByName(model.getName()).isPresent()) {
+        if (model == null || categoryRepository.findByName(model.getName()).isPresent()) {
             return false;
         }
 
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean edit(EditCategoryBindingModel model) {
-        if (categoryRepository.findByName(model.getName()).isPresent()) {
+        if (model == null || categoryRepository.findByName(model.getName()).isPresent()) {
             return false;
         }
 
