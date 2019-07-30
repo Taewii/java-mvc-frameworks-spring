@@ -192,7 +192,6 @@ public class UserServiceImplTest {
 
         // TODO: 30.7.2019 г. not sure how to do the testing here without in-memory db
         verify(userRepository).saveAndFlush(any(User.class));
-        assertNotNull(result);
     }
 
     @Test

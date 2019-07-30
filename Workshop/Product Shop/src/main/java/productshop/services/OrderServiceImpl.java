@@ -42,11 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void order(OrderProductBindingModel model) {
         User user = userRepository.findByUsername(model.getCustomer()).orElseThrow();
-        Product product = productRepository.findById(model.getProductId()).orElse(null);
-
-        if (user == null || product == null) {
-            throw new IllegalArgumentException(Constants.INVALID_DATA);
-        }
+        Product product = productRepository.findById(model.getProductId()).orElseThrow();
 
         Order order = mapper.map(model, Order.class);
         order.setCustomer(user);
