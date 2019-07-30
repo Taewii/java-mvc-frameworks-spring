@@ -109,7 +109,7 @@ public class OrderServiceImplTest {
     @Test
     public void order_withValidData_successfullyCreatesOrder() {
         User user = mock(User.class);
-        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
 
         Product product = mock(Product.class);
         when(productRepository.findById(any())).thenReturn(Optional.of(product));
@@ -123,8 +123,8 @@ public class OrderServiceImplTest {
         verify(orderRepository).saveAndFlush(any(Order.class));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void order_withNullUser_throwsIllegalArgumentException() {
+    @Test(expected = NoSuchElementException.class)
+    public void order_withNullUser_throwsNoSuchElementException() {
         when(userRepository.findByUsername(any(String.class))).thenReturn(null);
 
         Product product = mock(Product.class);
@@ -137,11 +137,10 @@ public class OrderServiceImplTest {
         orderService.order(orderModel);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void order_withNullProduct_throwsIllegalArgumentException() {
+    @Test(expected = NoSuchElementException.class)
+    public void order_withNullProduct_throwsNoSuchElementException() {
         User user = mock(User.class);
-        when(userRepository.findByUsername(any(String.class))).thenReturn(user);
-
+        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
         when(productRepository.findById(any(UUID.class))).thenReturn(null);
 
         OrderProductBindingModel orderModel = mock(OrderProductBindingModel.class);
@@ -151,8 +150,8 @@ public class OrderServiceImplTest {
         orderService.order(orderModel);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void order_withNullProductAndUser_throwsIllegalArgumentException() {
+    @Test(expected = NoSuchElementException.class)
+    public void order_withNullProductAndUser_throwsNoSuchElementException() {
         when(userRepository.findByUsername(any(String.class))).thenReturn(null);
         when(productRepository.findById(any(UUID.class))).thenReturn(null);
 

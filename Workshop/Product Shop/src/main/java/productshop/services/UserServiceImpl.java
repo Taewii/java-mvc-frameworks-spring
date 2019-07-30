@@ -54,9 +54,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(RegisterUserBindingModel model) {
+    public User register(RegisterUserBindingModel model) {
         if (userRepository.findByUsernameEager(model.getUsername()).isPresent()) {
-            return false;
+            return null;
         }
 
         User user = mapper.map(model, User.class);
@@ -67,27 +67,25 @@ public class UserServiceImpl implements UserService {
             user.setRoles(this.getInheritedRolesFromRole("USER"));
         }
 
-        userRepository.saveAndFlush(user);
-        return true;
+        return userRepository.saveAndFlush(user);
     }
 
     @Override
     public <T> T getByUsername(String username, Class<T> targetClass) {
-        return mapper.map(userRepository.findByUsername(username), targetClass);
+        return mapper.map(userRepository.findByUsername(username).orElseThrow(), targetClass);
     }
 
     @Override
-    public boolean edit(String username, EditUserProfileBindingModel model) {
-        User user = userRepository.findByUsername(username);
+    public User edit(String username, EditUserProfileBindingModel model) {
+        User user = userRepository.findByUsername(username).orElseThrow();
         if (!bCryptPasswordEncoder.matches(model.getOldPassword(), user.getPassword())) {
-            return false;
+            return null;
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(model.getNewPassword()));
         user.setEmail(model.getEmail());
 
-        userRepository.saveAndFlush(user);
-        return true;
+        return userRepository.saveAndFlush(user);
     }
 
     @Override

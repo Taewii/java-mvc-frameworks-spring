@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void order(OrderProductBindingModel model) {
-        User user = userRepository.findByUsername(model.getCustomer());
+        User user = userRepository.findByUsername(model.getCustomer()).orElseThrow();
         Product product = productRepository.findById(model.getProductId()).orElse(null);
 
         if (user == null || product == null) {

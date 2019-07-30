@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import productshop.domain.entities.User;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
 import productshop.domain.models.binding.user.RegisterUserBindingModel;
 import productshop.domain.models.view.user.EditUserProfileViewModel;
@@ -66,8 +67,8 @@ public class UserController {
             return REGISTER_VIEW;
         }
 
-        boolean isSuccessful = userService.register(user);
-        if (!isSuccessful) {
+        User entity = userService.register(user);
+        if (entity == null) {
             errors.rejectValue(USERNAME_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, USERNAME_ALREADY_IN_USE_MESSAGE);
             return REGISTER_VIEW;
         }
@@ -101,8 +102,8 @@ public class UserController {
             return EDIT_PROFILE_VIEW;
         }
 
-        boolean isSuccessful = userService.edit(principal.getName(), profile);
-        if (!isSuccessful) {
+        User entity = userService.edit(principal.getName(), profile);
+        if (entity == null) {
             errors.rejectValue(OLD_PASSWORD_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, WRONG_PASSWORD_MESSAGE);
             return EDIT_PROFILE_VIEW;
         }
