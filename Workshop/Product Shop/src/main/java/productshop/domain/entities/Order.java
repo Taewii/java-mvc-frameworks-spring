@@ -18,7 +18,7 @@ public class Order extends BaseUUIDEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User customer;
 
     @Column(name = "order_date", nullable = false)
@@ -29,4 +29,8 @@ public class Order extends BaseUUIDEntity {
 
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 }
