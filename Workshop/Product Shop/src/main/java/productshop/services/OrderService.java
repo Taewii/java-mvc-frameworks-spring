@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface OrderService {
 
-    void order(OrderProductBindingModel model);
+    void addToCart(OrderProductBindingModel model);
 
     OrderDetailsViewModel findById(UUID id);
 

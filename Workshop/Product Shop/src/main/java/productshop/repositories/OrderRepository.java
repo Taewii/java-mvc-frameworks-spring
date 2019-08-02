@@ -23,6 +23,7 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
             "JOIN FETCH o.customer " +
             "JOIN FETCH o.product " +
             "WHERE o.customer.username = :username " +
+            "AND o.isFinalized = true " +
             "ORDER BY o.orderDate DESC")
     List<Order> findAllByUsernameEager(@Param("username") String username);
 }

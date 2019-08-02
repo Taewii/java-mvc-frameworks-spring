@@ -15,19 +15,19 @@
                     <a class="nav-link" th:href="@{/home}">Home</a>
                 </li>
 
-                <li sec:authorize="isAuthenticated()" class="nav-item active">
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
                     <div class="dropdown show">
-                        <a class="nav-link active dropdown-toggle" href="#" role="button" id="cartDropdown"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link active dropdown-toggle" data-toggle="dropdown"
+                           href="#" id="cartDropdown" role="button">
                             Cart
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="cartDropdown">
+                        <div aria-labelledby="cartDropdown" class="dropdown-menu">
 
                             <div class="dropdown-item text-center">Samsung Galaxy S10 x 1</div>
 
                             <div class="dropdown-divider"></div>
                             <div class="button-holder d-flex justify-content-center">
-                                <a href="/cart/details" class="btn btn-dark">Cart</a>
+                                <a class="btn btn-dark" href="/cart/details">Cart</a>
                             </div>
                         </div>
                     </div>

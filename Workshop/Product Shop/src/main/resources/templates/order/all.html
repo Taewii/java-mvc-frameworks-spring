@@ -25,15 +25,16 @@
                     <div class="text-center">
                         <a th:href="@{/orders/details/{id}(id=${order.id})}">
                             <img alt="Product"
-                                 height="40" th:src="@{https://drive.google.com/uc?id={id}(id=${order.productImageUrl})}" width="40">
+                                 height="40"
+                                 th:src="@{https://drive.google.com/uc?id={id}(id=${order.productImageUrl})}"
+                                 width="40">
                         </a>
                     </div>
                 </td>
                 <td class="col-md-3 text-center" th:text="${order.customerUsername}"></td>
                 <td class="col-md-2 text-center" th:text="${#numbers.formatCurrency(order.totalPrice)}"></td>
-                <td class="col-md-3 text-center" th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">
-                    27-03-2019 15:45
-                </td>
+                <td class="col-md-3 text-center"
+                    th:text="${order.orderDate == null ? 'Not Finalized' : #temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}"></td>
             </tr>
             </tbody>
         </table>

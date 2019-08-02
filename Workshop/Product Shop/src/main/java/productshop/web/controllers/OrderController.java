@@ -51,12 +51,12 @@ public class OrderController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/order")
-    public String orderPost(@Valid @ModelAttribute(PRODUCT_ATTRIBUTE) OrderProductBindingModel order, Errors errors) {
+    public String addToCart(@Valid @ModelAttribute(PRODUCT_ATTRIBUTE) OrderProductBindingModel order, Errors errors) {
         if (errors.hasErrors()) {
             return FINALIZE_VIEW;
         }
 
-        orderService.order(order);
+        orderService.addToCart(order);
         return "redirect:/home";
     }
 

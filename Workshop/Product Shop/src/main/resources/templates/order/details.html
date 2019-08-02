@@ -37,7 +37,7 @@
             </div>
             <div class="row">
                 <div class="col col-md-12 text-center">
-                    <h4 th:text="|Date: ${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}|"></h4>
+                    <h4 th:text="|Date: ${order.orderDate == null ? 'Not Finalized' : #temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}|"></h4>
                 </div>
             </div>
         </div>

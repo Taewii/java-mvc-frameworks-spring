@@ -3,7 +3,6 @@ package productshop.services;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import productshop.config.Constants;
 import productshop.domain.entities.Order;
 import productshop.domain.entities.Product;
 import productshop.domain.entities.User;
@@ -14,6 +13,7 @@ import productshop.repositories.OrderRepository;
 import productshop.repositories.ProductRepository;
 import productshop.repositories.UserRepository;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void order(OrderProductBindingModel model) {
+    public void addToCart(OrderProductBindingModel model) {
         User user = userRepository.findByUsername(model.getCustomer()).orElseThrow();
         Product product = productRepository.findById(model.getProductId()).orElseThrow();
 
@@ -48,7 +48,6 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomer(user);
         order.setProduct(product);
         order.setTotalPrice(model.getPrice().multiply(new BigDecimal(Math.floor(model.getQuantity()))));
-        order.setOrderDate(LocalDateTime.now());
         order.setId(null); // it maps the id to be the model.productId
 
         orderRepository.saveAndFlush(order);
