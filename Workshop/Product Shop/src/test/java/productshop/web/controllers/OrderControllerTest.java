@@ -104,7 +104,7 @@ public class OrderControllerTest {
     @Test
     @WithMockUser
     public void details_get_withAuthenticatedUserValidId_returnsCorrectViewStatusAndAttribute() throws Exception {
-        Order order = createOrder(1);
+        Order order = createOrder(1, false);
 
         mockMvc.perform(get("/orders/details/" + order.getId()))
                 .andExpect(status().is2xxSuccessful())
@@ -130,9 +130,9 @@ public class OrderControllerTest {
     @Test
     @WithMockUser
     public void all_get_withAuthenticatedUser_returnsCorrectStatusCodeViewAndAttribute() throws Exception {
-        createOrder(1);
-        createOrder(2);
-        createOrder(3);
+        createOrder(1, false);
+        createOrder(2, false);
+        createOrder(3, false);
 
         mockMvc.perform(get("/orders/all"))
                 .andExpect(status().is2xxSuccessful())
@@ -152,9 +152,9 @@ public class OrderControllerTest {
     @Test
     @WithMockUser(username = "username 1")
     public void mine_get_withAuthenticatedUser_returnsCorrectStatusCodeViewAndAttribute() throws Exception {
-        createOrder(1);
-        createOrder(2);
-        createOrder(3);
+        createOrder(1, true);
+        createOrder(2, true);
+        createOrder(3, true);
 
         mockMvc.perform(get("/orders/mine"))
                 .andExpect(status().is2xxSuccessful())
@@ -175,7 +175,7 @@ public class OrderControllerTest {
     @Test
     @WithMockUser
     public void orderPost_post_withAuthenticatedUserValidInput_returnsCorrectStatusCodeViewAndAttribute() throws Exception {
-        createOrder(1);
+        createOrder(1, false);
 
         Product product = new Product();
         product.setName("name");
@@ -212,7 +212,7 @@ public class OrderControllerTest {
                 .andExpect(view().name("order/finalize"));
     }
 
-    private Order createOrder(int postfix) {
+    private Order createOrder(int postfix, boolean isFinalized) {
         Product product = new Product();
         product.setName("name " + postfix);
         product.setPrice(new BigDecimal(postfix));
@@ -232,6 +232,7 @@ public class OrderControllerTest {
         User userEntity = userRepository.saveAndFlush(user);
 
         Order order = new Order();
+        order.setFinalized(isFinalized);
         order.setProduct(productEntity);
         order.setCustomer(userEntity);
         order.setQuantity(postfix);

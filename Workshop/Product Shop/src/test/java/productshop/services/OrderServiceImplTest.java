@@ -119,7 +119,7 @@ public class OrderServiceImplTest {
         when(orderModel.getQuantity()).thenReturn(2);
 
         // not sure how to test the setters
-        orderService.order(orderModel);
+        orderService.addToCart(orderModel);
         verify(orderRepository).saveAndFlush(any(Order.class));
     }
 
@@ -134,7 +134,7 @@ public class OrderServiceImplTest {
         when(orderModel.getPrice()).thenReturn(BigDecimal.TEN);
         when(orderModel.getQuantity()).thenReturn(2);
 
-        orderService.order(orderModel);
+        orderService.addToCart(orderModel);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -147,7 +147,7 @@ public class OrderServiceImplTest {
         when(orderModel.getPrice()).thenReturn(BigDecimal.TEN);
         when(orderModel.getQuantity()).thenReturn(2);
 
-        orderService.order(orderModel);
+        orderService.addToCart(orderModel);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -159,12 +159,12 @@ public class OrderServiceImplTest {
         when(orderModel.getPrice()).thenReturn(BigDecimal.TEN);
         when(orderModel.getQuantity()).thenReturn(2);
 
-        orderService.order(orderModel);
+        orderService.addToCart(orderModel);
     }
 
     @Test(expected = NullPointerException.class)
     public void order_withNullInput_throwsNullPointerException() {
-        orderService.order(null);
+        orderService.addToCart(null);
     }
 
     private List<Order> createOrdersWithProductAndUser(int count) {
