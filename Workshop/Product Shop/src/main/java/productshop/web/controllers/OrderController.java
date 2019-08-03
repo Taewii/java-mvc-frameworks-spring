@@ -7,14 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import productshop.domain.models.binding.order.OrderProductBindingModel;
-import productshop.domain.models.view.order.CartViewOrderModel;
 import productshop.domain.models.view.order.OrderProductViewModel;
 import productshop.services.OrderService;
 import productshop.services.ProductService;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
 
 @Controller

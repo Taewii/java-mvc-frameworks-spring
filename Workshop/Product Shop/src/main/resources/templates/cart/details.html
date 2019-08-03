@@ -1,0 +1,65 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head :: head"></head>
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+
+    <main class="mt-3">
+        <h1 class="text-center text-dark">Shopping Cart</h1>
+        <hr class="hr-2 bg-dark w-75">
+        <table class="table table-hover w-75 mx-auto">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-md-2 text-center">Image</th>
+                <th class="col-md-3 text-center">Name</th>
+                <th class="col-md-2 text-center">Description</th>
+                <th class="col-md-2 text-center">Price</th>
+                <th class="col-md-1 text-center">Quantity</th>
+                <th class="col-md-2 text-center">Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="row mx-auto" th:each="order : ${orders}">
+                <th class="col-md-2 text-center">
+                    <img alt="Product" height="150"
+                         th:src="@{https://drive.google.com/uc?id={id}(id=${order.productImageUrl})}" width="150">
+                </th>
+                <td class="col-md-3 text-center" th:text="${order.productName}"></td>
+                <td class="col-md-2 text-center" th:text="${order.productDescription}">Smartphone</td>
+                <td class="col-md-2 text-center" th:text="${#numbers.formatCurrency(order.productPrice)}"></td>
+                <td class="col-md-1 text-center" th:text="${order.quantity}">1</td>
+                <td class="col-md-2 text-center">
+                    <a class="btn btn-danger text-white text-center" th:href="@{/cart/remove/{id}(id=${order.id})}">Remove</a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <hr class="hr-2 bg-dark">
+        <div class="text-center">
+            <h3 id="total">Total: 1900.00</h3>
+        </div>
+        <div class="button-holder d-flex justify-content-center">
+            <a class="btn btn-success" th:href="@{/cart/checkout}">Checkout</a>
+        </div>
+    </main>
+
+    <th:block th:insert="fragments/footer"/>
+</div>
+<th:block th:insert="fragments/scripts"/>
+
+<script th:inline="javascript">
+    const $trs = $('tbody > tr');
+
+    let total = 0;
+    $trs.each((index, item) => {
+        const price = +$($(item).children()[3]).text().substr(1);
+        const quantity = +$($(item).children()[4]).text();
+        total += price * quantity;
+    });
+
+    $('#total').text(`Total: $${total.toFixed(2)}`)
+</script>
+</body>
+
+</html>

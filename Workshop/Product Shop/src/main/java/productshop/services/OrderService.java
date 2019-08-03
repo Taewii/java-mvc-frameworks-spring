@@ -1,7 +1,6 @@
 package productshop.services;
 
 import productshop.domain.models.binding.order.OrderProductBindingModel;
-import productshop.domain.models.view.order.CartViewOrderModel;
 import productshop.domain.models.view.order.ListOrdersViewModel;
 import productshop.domain.models.view.order.OrderDetailsViewModel;
 
@@ -18,5 +17,9 @@ public interface OrderService {
 
     List<ListOrdersViewModel> findAllFinalizedByUsername(String username);
 
-    List<CartViewOrderModel> findAllNotFinalizedByUsername(String username);
+    <T> List<T> findAllNotFinalizedByUsername(String username, Class<T> targetClass);
+
+    void remove(UUID id, String username);
+
+    void checkout(String username);
 }

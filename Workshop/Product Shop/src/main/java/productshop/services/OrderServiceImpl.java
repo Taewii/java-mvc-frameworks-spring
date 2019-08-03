@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import productshop.domain.entities.Order;
 import productshop.domain.entities.Product;
 import productshop.domain.entities.User;
+import productshop.domain.enums.Authority;
 import productshop.domain.models.binding.order.OrderProductBindingModel;
-import productshop.domain.models.view.order.CartViewOrderModel;
 import productshop.domain.models.view.order.ListOrdersViewModel;
 import productshop.domain.models.view.order.OrderDetailsViewModel;
 import productshop.repositories.OrderRepository;
@@ -15,9 +15,13 @@ import productshop.repositories.ProductRepository;
 import productshop.repositories.UserRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static productshop.config.Constants.NO_PERMISSION_MESSAGE;
+
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -76,10 +80,39 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<CartViewOrderModel> findAllNotFinalizedByUsername(String username) {
+    public <T> List<T> findAllNotFinalizedByUsername(String username, Class<T> targetClass) {
         return orderRepository.findAllNotFinalizedByUsernameEager(username)
                 .stream()
-                .map(o -> mapper.map(o, CartViewOrderModel.class))
+                .map(o -> mapper.map(o, targetClass))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public void remove(UUID id, String username) {
+        Order order = orderRepository.findByIdEager(id).orElseThrow();
+
+        // If the user that made the order doesn't match the currently logged in one,
+        // check if the user is a moderator or not, if not throw exception
+        if (!order.getCustomer().getUsername().equalsIgnoreCase(username)) {
+            User user = userRepository.findByUsernameEager(username).orElseThrow();
+            if (user.getAuthorities().stream()
+                    .noneMatch(r -> r.getAuthority().equalsIgnoreCase("ROLE_" + Authority.MODERATOR.name()))) {
+                throw new IllegalArgumentException(NO_PERMISSION_MESSAGE);
+            }
+        }
+
+        orderRepository.delete(order);
+    }
+
+    @Override
+    public void checkout(String username) {
+        List<Order> orders = orderRepository.findAllNotFinalizedByUsernameEager(username);
+
+        orders.forEach(order -> {
+            order.setFinalized(true);
+            order.setOrderDate(LocalDateTime.now());
+
+            orderRepository.save(order);
+        });
     }
 }

@@ -31,6 +31,7 @@ public final class Constants {
 
     public static final String CANNOT_CHANGE_TO_ROOT = "Cannot change role to ROOT.";
     public static final String USERNAME_NOT_FOUND = "User with such username doesn't exist.";
+    public static final String NO_PERMISSION_MESSAGE = "You don't have the permission to do that.";
     public static final String INVALID_DATA = "Invalid data.";
 
 
