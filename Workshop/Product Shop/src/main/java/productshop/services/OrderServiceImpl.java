@@ -7,15 +7,14 @@ import productshop.domain.entities.Order;
 import productshop.domain.entities.Product;
 import productshop.domain.entities.User;
 import productshop.domain.models.binding.order.OrderProductBindingModel;
+import productshop.domain.models.view.order.CartViewOrderModel;
 import productshop.domain.models.view.order.ListOrdersViewModel;
 import productshop.domain.models.view.order.OrderDetailsViewModel;
 import productshop.repositories.OrderRepository;
 import productshop.repositories.ProductRepository;
 import productshop.repositories.UserRepository;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -68,11 +67,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<ListOrdersViewModel> findAllByUsername(String username) {
+    public List<ListOrdersViewModel> findAllFinalizedByUsername(String username) {
         return orderRepository
-                .findAllByUsernameEager(username)
+                .findAllFinalizedByUsernameEager(username)
                 .stream()
                 .map(o -> mapper.map(o, ListOrdersViewModel.class))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<CartViewOrderModel> findAllNotFinalizedByUsername(String username) {
+        return orderRepository.findAllNotFinalizedByUsernameEager(username)
+                .stream()
+                .map(o -> mapper.map(o, CartViewOrderModel.class))
                 .collect(Collectors.toUnmodifiableList());
     }
 }

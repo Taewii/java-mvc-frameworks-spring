@@ -88,9 +88,9 @@ public class OrderServiceImplTest {
     @Test // kinda needs in-memory db to test the query
     public void findAllByUsername_with3Orders_returnsCorrectlyMappedOrder() {
         List<Order> orders = createOrdersWithProductAndUser(3);
-        when(orderRepository.findAllByUsernameEager("username 1")).thenReturn(List.of(orders.get(1)));
+        when(orderRepository.findAllFinalizedByUsernameEager("username 1")).thenReturn(List.of(orders.get(1)));
 
-        List<ListOrdersViewModel> result = orderService.findAllByUsername("username 1");
+        List<ListOrdersViewModel> result = orderService.findAllFinalizedByUsername("username 1");
         ListOrdersViewModel resultModel = result.get(0);
 
         assertEquals(1, result.size());
@@ -102,7 +102,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void findAllByUsername_withNoOrders_returnsEmptyList() {
-        List<ListOrdersViewModel> result = orderService.findAllByUsername("username 1");
+        List<ListOrdersViewModel> result = orderService.findAllFinalizedByUsername("username 1");
         assertTrue(result.isEmpty());
     }
 
