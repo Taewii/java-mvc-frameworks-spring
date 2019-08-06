@@ -1,0 +1,51 @@
+<!--suppress ALL -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head :: head"></head>
+
+<style>
+    img {
+        width: 250px;
+    }
+
+    #errorText {
+        font-size: 22px;
+        margin: 14px 0;
+        margin: 30px 0;
+    }
+
+    #errorLink {
+        font-size: 20px;
+        padding: 12px 30px;
+        border: 1px solid;
+        border-radius: 25px;
+        color: #000;
+        background-color: transparent;
+        text-decoration: none;
+        transition: all 0.5s ease-in-out;
+    }
+
+    #errorLink:hover,
+    #errorLink:active {
+        color: #fff;
+        background: #000;
+    }
+</style>
+
+<body>
+<div class="container-fluid">
+    <th:block th:insert="fragments/header"/>
+
+    <main class="mt-3 text-center">
+        <img src="https://abeon-hosting.com/images/confused-clipart-stick-man-19.jpg"
+             alt="stickfigure">
+
+        <p id="errorText">O-o-oh, something went wrong.</p>
+        <a id="errorLink" href="/home">Go Home</a>
+    </main>
+
+    <th:block th:insert="fragments/footer"/>
+</div>
+<th:block th:insert="fragments/scripts"/>
+</body>
+
+</html>
