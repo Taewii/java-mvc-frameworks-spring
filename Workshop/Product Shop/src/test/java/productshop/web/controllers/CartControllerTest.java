@@ -135,16 +135,16 @@ public class CartControllerTest {
         assertEquals(3, orderRepository.count());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     @WithMockUser(username = "user")
-    public void remove_get_withUserTryingToRemoveOrderThatHeHasNotMade_throwsIllegalArgumentException() throws Exception {
+    public void remove_get_withUserTryingToRemoveOrderThatHeHasNotMade_returnsErrorPage() throws Exception {
         createUser("user");
         User otherUser = createUser("otherUser");
         Order order = createOrder(2, otherUser, false);
 
         mockMvc.perform(get("/cart/remove/" + order.getId().toString()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/cart/details"));
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 
     @Test

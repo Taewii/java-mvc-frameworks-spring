@@ -73,9 +73,10 @@ public class ProductControllerTest {
 
     @Test
     @WithMockUser
-    public void all_get_withUserBelowModeratorRole_isForbidden() throws Exception {
+    public void all_get_withUserBelowModeratorRole_returns403ErrorPage() throws Exception {
         mockMvc.perform(get("/products/all"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/403"));
     }
 
     @Test
@@ -131,9 +132,10 @@ public class ProductControllerTest {
 
     @Test
     @WithMockUser
-    public void add_get_withUserBelowModeratorRole_isForbidden() throws Exception {
+    public void add_get_withUserBelowModeratorRole_returns403ErrorPage() throws Exception {
         mockMvc.perform(get("/products/all"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/403"));
     }
 
     @Test
@@ -177,9 +179,10 @@ public class ProductControllerTest {
 
     @Test
     @WithMockUser
-    public void edit_get_withUserBelowModeratorRole_isForbidden() throws Exception {
+    public void edit_get_withUserBelowModeratorRole_returns403ErrorPage() throws Exception {
         mockMvc.perform(get("/products/edit/" + UUID.randomUUID().toString()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/403"));
     }
 
     @Test
@@ -240,9 +243,10 @@ public class ProductControllerTest {
 
     @Test
     @WithMockUser
-    public void delete_get_withUserBelowModeratorRole_isForbidden() throws Exception {
+    public void delete_get_withUserBelowModeratorRole_returns403ErrorPage() throws Exception {
         mockMvc.perform(get("/products/delete/" + UUID.randomUUID().toString()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/403"));
     }
 
     @Test
@@ -270,12 +274,14 @@ public class ProductControllerTest {
         assertFalse(productRepository.findById(product.getId()).isPresent());
     }
 
-    @Test(expected = Exception.class)
+    @Test
     @WithMockUser(roles = "MODERATOR")
-    public void delete_delete_withModeratorUserNullId_throwsNoSuchElementException() throws Exception {
+    public void delete_delete_withModeratorUserNullId_returnsNoSuchElementErrorPage() throws Exception {
         mockMvc.perform(delete("/products/delete")
                 .with(csrf())
-                .param("id", UUID.randomUUID().toString()));
+                .param("id", UUID.randomUUID().toString()))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/no-such-element-error"));
 
     }
 }

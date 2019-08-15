@@ -88,9 +88,10 @@ public class OrderControllerTest {
 
     @Test
     @WithMockUser
-    public void orderDetails_get_withAuthenticatedUserInvalidId_returns4xxStatus() throws Exception {
+    public void orderDetails_get_withAuthenticatedUserInvalidId_returnsErrorPage() throws Exception {
         mockMvc.perform(get("/orders/product/INVALID"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 
     @Test
@@ -114,9 +115,10 @@ public class OrderControllerTest {
 
     @Test
     @WithMockUser
-    public void details_get_withAuthenticatedUserInValidId_returns4xxStatus() throws Exception {
+    public void details_get_withAuthenticatedUserInValidId_returnsErrorPage() throws Exception {
         mockMvc.perform(get("/orders/details/INVALID"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/error"));
     }
 
     @Test

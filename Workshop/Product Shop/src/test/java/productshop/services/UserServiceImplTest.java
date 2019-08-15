@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import productshop.domain.entities.Role;
 import productshop.domain.entities.User;
@@ -41,7 +42,7 @@ public class UserServiceImplTest {
     private RoleRepository roleRepository;
 
     @MockBean
-    private BCryptPasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     @Captor
     private ArgumentCaptor captor;

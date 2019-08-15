@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import productshop.config.Constants;
 import productshop.domain.entities.Role;
@@ -33,17 +33,17 @@ public class UserServiceImpl implements UserService {
 
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
 
     @Autowired
     public UserServiceImpl(RoleRepository roleRepository,
                            UserRepository userRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           PasswordEncoder passwordEncoder,
                            ModelMapper mapper) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
     }
 
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = mapper.map(model, User.class);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (userRepository.count() == 0) {
             user.setRoles(this.getInheritedRolesFromRole("ROOT"));
         } else {
@@ -78,11 +78,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User edit(String username, EditUserProfileBindingModel model) {
         User user = userRepository.findByUsername(username).orElseThrow();
-        if (!bCryptPasswordEncoder.matches(model.getOldPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(model.getOldPassword(), user.getPassword())) {
             return null;
         }
 
-        user.setPassword(bCryptPasswordEncoder.encode(model.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(model.getNewPassword()));
         user.setEmail(model.getEmail());
 
         return userRepository.saveAndFlush(user);
