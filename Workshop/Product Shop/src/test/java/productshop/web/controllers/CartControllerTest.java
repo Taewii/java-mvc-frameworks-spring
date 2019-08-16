@@ -130,7 +130,7 @@ public class CartControllerTest {
 
         mockMvc.perform(get("/cart/remove/" + order.getId().toString()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/cart/details"));
+                .andExpect(redirectedUrlPattern("/cart/details?{title=\\w+}"));
 
         assertEquals(3, orderRepository.count());
     }
@@ -169,7 +169,7 @@ public class CartControllerTest {
 
         mockMvc.perform(get("/cart/checkout"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/home"));
+                .andExpect(redirectedUrlPattern("/home?{title=\\w+}"));
 
         assertEquals(4, orderRepository.findAllFinalizedByUsernameEager("user").size());
         assertEquals(0, orderRepository.findAllNotFinalizedByUsernameEager("user").size());

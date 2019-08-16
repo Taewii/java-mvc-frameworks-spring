@@ -269,7 +269,7 @@ public class ProductControllerTest {
                 .with(csrf())
                 .param("id", product.getId().toString()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/products/all"));
+                .andExpect(redirectedUrlPattern("/products/all?{title=\\w+}"));
 
         assertFalse(productRepository.findById(product.getId()).isPresent());
     }

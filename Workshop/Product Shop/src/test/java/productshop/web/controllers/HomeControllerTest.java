@@ -86,7 +86,7 @@ public class HomeControllerTest {
     public void index_get_withAuthenticatedUser_redirectsToCorrectView() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/home"));
+                .andExpect(redirectedUrlPattern("/home?{title=\\w+}"));
     }
 
     @Test

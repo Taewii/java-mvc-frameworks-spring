@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -130,8 +131,20 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser
-    public void all_get_withAuthenticatedUser_returnsCorrectStatusCodeViewAndAttribute() throws Exception {
+    @WithMockUser(roles = "MODERATOR")
+    public void all_get_withAuthenticatedUserBelowAdminRole_returns403ErrorPage() throws Exception {
+        createOrder(1, false);
+        createOrder(2, false);
+        createOrder(3, false);
+
+        mockMvc.perform(get("/orders/all"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("error/403"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void all_get_withAuthenticatedAdminUser_returnsCorrectStatusCodeViewAndAttribute() throws Exception {
         createOrder(1, false);
         createOrder(2, false);
         createOrder(3, false);
@@ -194,7 +207,7 @@ public class OrderControllerTest {
                 .param("imageUrl", "imageUrl")
                 .param("quantity", "1"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/home"));
+                .andExpect(redirectedUrlPattern("/home?{title=\\w+}"));
 
         Assert.assertEquals(2, orderRepository.count());
     }
