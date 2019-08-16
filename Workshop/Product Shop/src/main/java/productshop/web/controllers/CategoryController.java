@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import productshop.domain.annotations.PageTitle;
 import productshop.domain.models.binding.category.AddCategoryBindingModel;
 import productshop.domain.models.binding.category.DeleteCategoryBindingModel;
 import productshop.domain.models.binding.category.EditCategoryBindingModel;
@@ -38,6 +39,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @PageTitle(text = "All Categories")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/all")
     public String all(Model model) {
@@ -45,6 +47,7 @@ public class CategoryController {
         return ALL_VIEW;
     }
 
+    @PageTitle(text = "Add Category")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/add")
     public String add(Model model) {
@@ -68,6 +71,7 @@ public class CategoryController {
         return "redirect:/home";
     }
 
+    @PageTitle(text = "Edit Category")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable String id, Model model) {
@@ -91,6 +95,7 @@ public class CategoryController {
         return "redirect:/categories/all";
     }
 
+    @PageTitle(text = "Delete Category")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable String id, Model model) {

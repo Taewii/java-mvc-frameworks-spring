@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import productshop.config.Constants;
+import productshop.domain.annotations.PageTitle;
 import productshop.domain.models.binding.order.OrderProductBindingModel;
 import productshop.domain.models.view.order.OrderProductViewModel;
 import productshop.services.OrderService;
@@ -40,6 +42,7 @@ public class OrderController {
         this.productService = productService;
     }
 
+    @PageTitle(text = "Order Details")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/product/{id}")
     public String orderDetails(@PathVariable(ID_ATTRIBUTE) UUID id, Principal principal, Model model) {
@@ -60,6 +63,7 @@ public class OrderController {
         return "redirect:/home";
     }
 
+    @PageTitle(text = "Order Details")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/details/{id}")
     public String details(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {
@@ -67,13 +71,15 @@ public class OrderController {
         return DETAILS_VIEW;
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PageTitle(text = "All Orders")
+    @PreAuthorize(Constants.IS_ADMIN)
     @GetMapping("/all")
     public String all(Model model) {
         model.addAttribute(ORDERS_ATTRIBUTE, orderService.findAllOrdersWithUsers());
         return ALL_VIEW;
     }
 
+    @PageTitle(text = "My Orders")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/mine")
     public String mine(Principal principal, Model model) {

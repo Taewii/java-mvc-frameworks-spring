@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import productshop.domain.annotations.PageTitle;
 import productshop.domain.models.binding.product.AddProductBindingModel;
 import productshop.domain.models.binding.product.DeleteProductBindingModel;
 import productshop.domain.models.binding.product.EditProductBindingModel;
@@ -58,6 +59,7 @@ public class ProductController {
         return categoryService.findAll();
     }
 
+    @PageTitle(text = "All Products")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/all")
     public String all(Model model) {
@@ -65,6 +67,7 @@ public class ProductController {
         return ALL_VIEW;
     }
 
+    @PageTitle(text = "Product Details")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/details/{id}")
     public String details(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {
@@ -73,6 +76,7 @@ public class ProductController {
         return "product/details";
     }
 
+    @PageTitle(text = "Add Product")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/add")
     public String add(Model model) {
@@ -96,6 +100,7 @@ public class ProductController {
         return "redirect:/products/details/" + productId;
     }
 
+    @PageTitle(text = "Edit Product")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {
@@ -114,6 +119,7 @@ public class ProductController {
         return "redirect:/products/details/" + product.getId();
     }
 
+    @PageTitle(text = "Delete Product")
     @PreAuthorize(IS_MODERATOR)
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable(ID_ATTRIBUTE) UUID id, Model model) {

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import productshop.domain.annotations.PageTitle;
 import productshop.domain.entities.User;
 import productshop.domain.models.binding.user.EditUserProfileBindingModel;
 import productshop.domain.models.binding.user.RegisterUserBindingModel;
@@ -55,11 +56,13 @@ public class UserController {
         this.recaptchaService = recaptchaService;
     }
 
+    @PageTitle(text = "Login")
     @GetMapping("/login")
     public String login() {
         return LOGIN_VIEW;
     }
 
+    @PageTitle(text = "Register")
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute(USER_ATTRIBUTE, new RegisterUserBindingModel());
@@ -90,6 +93,7 @@ public class UserController {
         return "redirect:/users/login";
     }
 
+    @PageTitle(text = "Profile")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String profile(Model model, Principal principal) {
@@ -98,6 +102,7 @@ public class UserController {
         return PROFILE_VIEW;
     }
 
+    @PageTitle(text = "Edit Profile")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/edit")
     public String profileEdit(Model model, Principal principal) {
@@ -126,6 +131,7 @@ public class UserController {
         return "redirect:/users/login";
     }
 
+    @PageTitle(text = "All Users")
     @PreAuthorize(IS_ADMIN)
     @GetMapping("/all")
     public String all(Model model) {

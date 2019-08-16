@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import productshop.domain.annotations.PageTitle;
 import productshop.domain.models.view.order.CartDetailsOrderViewModel;
 import productshop.domain.models.view.order.CartViewOrderModel;
 import productshop.services.OrderService;
@@ -37,6 +38,7 @@ public class CartController {
         return orderService.findAllNotFinalizedByUsername(principal.getName(), CartViewOrderModel.class);
     }
 
+    @PageTitle(text = "Cart Details")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/details")
     public String details(Principal principal, Model model) {
