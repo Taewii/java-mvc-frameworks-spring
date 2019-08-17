@@ -2,6 +2,7 @@ package productshop.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Category;
 import productshop.domain.models.binding.category.AddCategoryBindingModel;
@@ -71,6 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable("products")
     public List<ListProductsViewModel> getProductsByCategoryId(Long categoryId) {
         Category category = categoryRepository.findByIdEager(categoryId).orElseThrow();
         return category

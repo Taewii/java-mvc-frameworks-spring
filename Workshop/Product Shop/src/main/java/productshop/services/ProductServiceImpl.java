@@ -2,6 +2,7 @@ package productshop.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Category;
 import productshop.domain.entities.Product;
@@ -67,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable("products")
     public List<ListProductsViewModel> findAll() {
         return productRepository.findAll()
                 .stream()
