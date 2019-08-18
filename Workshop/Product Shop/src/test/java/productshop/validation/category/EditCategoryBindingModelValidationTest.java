@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import productshop.config.Constants;
 import productshop.domain.models.binding.category.EditCategoryBindingModel;
-import productshop.domain.models.binding.order.OrderProductBindingModel;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;

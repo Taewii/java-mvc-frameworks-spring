@@ -2,7 +2,6 @@ package productshop.validation.category;
 
 import org.junit.Test;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import productshop.config.Constants;
 import productshop.domain.models.binding.category.DeleteCategoryBindingModel;
 
 import javax.validation.ConstraintViolation;

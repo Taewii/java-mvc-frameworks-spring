@@ -8,8 +8,7 @@ import productshop.domain.models.base.UserModel;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import static productshop.config.Constants.BLANK_PASSWORD_MESSAGE;
-import static productshop.config.Constants.INVALID_EMAIL_MESSAGE;
+import static productshop.config.Constants.*;
 
 @Getter
 @Setter
@@ -25,7 +24,7 @@ public class EditUserProfileBindingModel implements UserModel {
     @NotBlank(message = BLANK_PASSWORD_MESSAGE)
     private String newPasswordConfirm;
 
-    @NotBlank(message = BLANK_PASSWORD_MESSAGE)
+    @NotBlank(message = BLANK_EMAIL_MESSAGE)
     @Email(message = INVALID_EMAIL_MESSAGE)
     private String email;
 }
