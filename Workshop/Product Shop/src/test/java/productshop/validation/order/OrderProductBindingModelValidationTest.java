@@ -1,4 +1,4 @@
-package productshop.validation;
+package productshop.validation.order;
 
 import org.junit.Test;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -6,7 +6,8 @@ import productshop.domain.models.binding.order.OrderProductBindingModel;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,12 +16,24 @@ import static org.junit.Assert.assertTrue;
 import static productshop.config.Constants.NEGATIVE_ORDER_QUANTITY_MESSAGE;
 import static productshop.config.Constants.NULL_QUANTITY_MESSAGE;
 
-public class OrderModelValidationTest {
+public class OrderProductBindingModelValidationTest {
+
+    private static final Map<String, String> requiredFields = new HashMap<>() {{
+        put("productId", "must not be null");
+        put("quantity", NULL_QUANTITY_MESSAGE);
+    }};
 
     private Validator createValidator() {
         LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
         localValidatorFactoryBean.afterPropertiesSet();
         return localValidatorFactoryBean;
+    }
+
+    private void checkFields(Set<ConstraintViolation<OrderProductBindingModel>> constraintViolations) {
+        for (ConstraintViolation<OrderProductBindingModel> violation : constraintViolations) {
+            assertTrue(requiredFields.containsKey(violation.getPropertyPath().toString()));
+            assertTrue(requiredFields.get(violation.getPropertyPath().toString()).equalsIgnoreCase(violation.getMessage()));
+        }
     }
 
     @Test
@@ -31,14 +44,7 @@ public class OrderModelValidationTest {
         Set<ConstraintViolation<OrderProductBindingModel>> constraintViolations = validator.validate(order);
 
         assertThat(constraintViolations.size()).isEqualTo(2);
-        Iterator<ConstraintViolation<OrderProductBindingModel>> violationIterator = constraintViolations.iterator();
-        ConstraintViolation<OrderProductBindingModel> violation = violationIterator.next();
-
-        assertThat(violation.getPropertyPath().toString()).isEqualTo("productId");
-        assertThat(violation.getMessage()).isEqualTo("must not be null");
-        violation = violationIterator.next();
-        assertThat(violation.getPropertyPath().toString()).isEqualTo("quantity");
-        assertThat(violation.getMessage()).isEqualTo(NULL_QUANTITY_MESSAGE);
+        checkFields(constraintViolations);
     }
 
     @Test
