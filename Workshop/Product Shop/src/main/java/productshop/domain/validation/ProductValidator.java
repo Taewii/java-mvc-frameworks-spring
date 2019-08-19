@@ -23,9 +23,8 @@ public class ProductValidator implements Validator {
     public void validate(Object target, Errors errors) {
         if (target instanceof AddProductBindingModel) {
             AddProductBindingModel product = (AddProductBindingModel) target;
-            boolean hasImage = product.getImage().getSize() > 0;
 
-            if (!hasImage) {
+            if (product.getImage().isEmpty()) {
                 errors.rejectValue(IMAGE_ATTRIBUTE, BAD_REQUEST_ERROR_CODE, EMPTY_IMAGE_MESSAGE);
             }
         }
