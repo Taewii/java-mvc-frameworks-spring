@@ -2,6 +2,7 @@ package productshop.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import productshop.domain.entities.Category;
@@ -39,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "products", allEntries = true)
     public String add(AddProductBindingModel model) {
         String fileId;
         try {
@@ -77,17 +79,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "products", allEntries = true)
     public void edit(EditProductBindingModel model) {
         Product product = productRepository.findByIdEager(model.getId()).orElseThrow();
         product.setName(model.getName());
         product.setDescription(model.getDescription());
         product.setPrice(model.getPrice());
-        product.getCategories().addAll(this.getCategoriesFromValues(model.getCategories()));
+        product.setCategories(this.getCategoriesFromValues(model.getCategories()));
 
         productRepository.saveAndFlush(product);
     }
 
     @Override
+    @CacheEvict(cacheNames = "products", allEntries = true)
     public void delete(DeleteProductBindingModel model) {
         Product product = productRepository.findById(model.getId()).orElseThrow();
         googleDriveService.delete(product.getImageUrl());

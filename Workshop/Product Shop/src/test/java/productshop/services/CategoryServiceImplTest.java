@@ -128,10 +128,11 @@ public class CategoryServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void getProductsByCategoryId_withInvalidInput_throwsNoSuchElementException() {
         when(categoryRepository.findByIdEager(1L)).thenReturn(Optional.empty());
-        categoryService.getProductsByCategoryId(1L);
+        List<ListProductsViewModel> result = categoryService.getProductsByCategoryId(1L);
+        assertTrue(result.isEmpty());
     }
 
     @Test

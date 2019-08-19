@@ -34,19 +34,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class HomeControllerTest {
 
+    private static boolean setUpIsDone = false;
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private ObjectMapper mapper;
-
-    private static boolean setUpIsDone = false;
 
     @Before
     public void setUp() {

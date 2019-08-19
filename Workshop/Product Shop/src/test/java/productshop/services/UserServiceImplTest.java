@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import productshop.domain.entities.Role;
@@ -110,10 +109,18 @@ public class UserServiceImplTest {
 
     @Test
     public void changeRole_withValidInput_changesRolesSuccessfully() {
-        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{ setId(1L); }}));
-        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{ setId(2L); }}));
-        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{ setId(3L); }}));
-        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{ setId(4L); }}));
+        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
+            setId(1L);
+        }}));
+        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
+            setId(2L);
+        }}));
+        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
+            setId(3L);
+        }}));
+        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
+            setId(4L);
+        }}));
 
         User user = new User();
         when(userRepository.findById(any(UUID.class))).thenReturn(Optional.of(user));
@@ -159,10 +166,18 @@ public class UserServiceImplTest {
 
     @Test
     public void register_withValidInputAndNoOtherUsersInDb_registersUserSuccessfullyAndSetsHimRootRole() {
-        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{ setId(1L); }}));
-        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{ setId(2L); }}));
-        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{ setId(3L); }}));
-        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{ setId(4L); }}));
+        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
+            setId(1L);
+        }}));
+        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
+            setId(2L);
+        }}));
+        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
+            setId(3L);
+        }}));
+        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
+            setId(4L);
+        }}));
 
         RegisterUserBindingModel model = new RegisterUserBindingModel();
         model.setUsername("username");
@@ -177,10 +192,18 @@ public class UserServiceImplTest {
 
     @Test
     public void register_withValidInput_registersUserSuccessfullyAndSetsHimUserRole() {
-        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{ setId(1L); }}));
-        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{ setId(2L); }}));
-        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{ setId(3L); }}));
-        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{ setId(4L); }}));
+        when(roleRepository.findById(1L)).thenReturn(Optional.of(new Role(Authority.ROOT) {{
+            setId(1L);
+        }}));
+        when(roleRepository.findById(2L)).thenReturn(Optional.of(new Role(Authority.ADMIN) {{
+            setId(2L);
+        }}));
+        when(roleRepository.findById(3L)).thenReturn(Optional.of(new Role(Authority.MODERATOR) {{
+            setId(3L);
+        }}));
+        when(roleRepository.findById(4L)).thenReturn(Optional.of(new Role(Authority.USER) {{
+            setId(4L);
+        }}));
 
         when(userRepository.count()).thenReturn(1L);
 

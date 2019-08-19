@@ -11,6 +11,7 @@ import productshop.domain.models.view.category.ListCategoriesViewModel;
 import productshop.domain.models.view.product.ListProductsViewModel;
 import productshop.repositories.CategoryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,7 +75,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Cacheable("products")
     public List<ListProductsViewModel> getProductsByCategoryId(Long categoryId) {
-        Category category = categoryRepository.findByIdEager(categoryId).orElseThrow();
+        Category category = categoryRepository.findByIdEager(categoryId).orElse(null);
+        if (category == null) {
+            return new ArrayList<>();
+        }
+
         return category
                 .getProducts()
                 .stream()

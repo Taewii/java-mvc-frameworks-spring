@@ -55,7 +55,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     public String uploadFile(MultipartFile multipartFile) {
         try {
             java.io.File tempFile = java.io.File.createTempFile("temp", ".tmp");
-            long sizeInBytes = tempFile.length() / (1024 * 1024);
+            long sizeInBytes = multipartFile.getSize() / (1024 * 1024);
 
             if (sizeInBytes > MAX_ALLOWED_SIZE_IN_MB || !ALLOWED_MIME_TYPES.contains(multipartFile.getContentType())) {
                 throw new IllegalArgumentException("File doesn't meet the requirements");

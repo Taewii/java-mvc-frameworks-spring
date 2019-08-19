@@ -44,6 +44,11 @@
                 $products.empty();
                 $products.append('<h1 class="text-center font-weight-bold">Products</h1>');
 
+                if (products.length === 0) {
+                    $products.append("<h3 class='text-center'>Category does not contain any items.</h3>");
+                    return;
+                }
+
                 products.forEach(product => {
                     $products.append(`
                         <div class="product">
@@ -74,10 +79,6 @@
     }
 
     $(`input[value="${selectedCategory}"]`).click();
-
-    // WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
-
-
 </script>
 </body>
 
